@@ -1,11 +1,16 @@
 /* eslint-disable prettier/prettier */
-import React from 'react';
-import {View, Text} from 'react-native';
+import React, {useState} from 'react';
+import {View, Text, Button} from 'react-native';
 
 const TodoList = () => {
+  const [title, setTitle] = useState('Todo List');
+  function changeTitle() {
+    setTitle('Just a test!');
+  }
   return (
     <View>
-      <Text>Hello from Todo List page!</Text>
+          <Text>{title}</Text>
+      <Button title="Change Title" onPress={() => changeTitle}/>
     </View>
   );
 };
