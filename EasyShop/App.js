@@ -28,6 +28,7 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 import TodoList from './components/todoList';
+import Todo from './components/Todo';
 
 const Section = ({children, title}): Node => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -71,10 +72,21 @@ const App: () => Node = () => {
     }
   }
   return (
-    <View>
-      <Text>{title}</Text>
-      <Button title="Change Title" onPress={() => changeTitle(title)} />
-    </View>
+    <Section>
+      <View>
+        <Text>{title}</Text>
+        <Button title="Change Title" onPress={() => changeTitle(title)} />
+      </View>
+
+      <Section>
+        <View>
+          <Todo name="name - one" />
+          <Todo name="name - Two" />
+          <Todo name="name - Three" />
+        </View>
+      </Section>
+    </Section>
+
     // <SafeAreaView style={backgroundStyle}>
     //   <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
     //   <ScrollView
