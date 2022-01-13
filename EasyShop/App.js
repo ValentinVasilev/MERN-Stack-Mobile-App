@@ -79,10 +79,11 @@ const App: () => Node = () => {
       </View>
 
       <Section>
-        <View>
+        <View style={{fontSize: 20}}>
           <Todo name="name - one" />
           <Todo name="name - Two" />
           <Todo name="name - Three" />
+          <Text style={{fontSize: 30}}>Test</Text>
         </View>
       </Section>
     </Section>
