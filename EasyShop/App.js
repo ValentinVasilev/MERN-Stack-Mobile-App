@@ -27,8 +27,8 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
-import TodoList from './components/todoList';
-import Todo from './components/Todo';
+// import TodoList from './components/todoList';
+// import Todo from './components/Todo';
 import ProductContainer from './screens/Products/ProductContainer';
 
 const Section = ({children, title}): Node => {
@@ -58,12 +58,6 @@ const Section = ({children, title}): Node => {
 };
 
 const App: () => Node = () => {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
   const [title, setTitle] = useState('Todo List');
   function changeTitle(title) {
     if (title === 'Todo List') {
