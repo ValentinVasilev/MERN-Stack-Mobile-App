@@ -23,13 +23,14 @@ import {
 import {
   Colors,
   DebugInstructions,
-  Header,
+  // Header,
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 // import TodoList from './components/todoList';
 // import Todo from './components/Todo';
 import ProductContainer from './screens/Products/ProductContainer';
+import Header from './shared/Header';
 
 const Section = ({children, title}): Node => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -68,6 +69,7 @@ const App: () => Node = () => {
   }
   return (
     <View style={styles.container}>
+      <Header />
       <ProductContainer />
     </View>
   );
