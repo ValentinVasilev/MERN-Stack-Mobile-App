@@ -31,6 +31,7 @@ import {
 // import Todo from './components/Todo';
 import ProductContainer from './screens/Products/ProductContainer';
 import Header from './shared/Header';
+import {NativeBaseProvider} from 'native-base';
 
 const Section = ({children, title}): Node => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -68,10 +69,12 @@ const App: () => Node = () => {
     }
   }
   return (
-    <View style={styles.container}>
-      <Header />
-      <ProductContainer />
-    </View>
+    <NativeBaseProvider>
+      <View style={styles.container}>
+        <Header />
+        <ProductContainer />
+      </View>
+    </NativeBaseProvider>
   );
 };
 

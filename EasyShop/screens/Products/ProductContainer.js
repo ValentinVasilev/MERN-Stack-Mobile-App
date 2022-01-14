@@ -1,16 +1,25 @@
+/* eslint-disable react/self-closing-comp */
 /* eslint-disable prettier/prettier */
 import React, {useState, useEffect} from 'react';
 import {
   View,
   StyleSheet,
   ActivityIndicator,
-  Text,
+  // Text,
   FlatList,
 } from 'react-native';
 import ProductList from './ProductList';
-// import data2 from 'EasyShop/assets/data/products.json';
-
-// const data2 = require('EasyShop/assets/data/products.json');
+import {
+  Container,
+  Header,
+  Icon,
+  Item,
+  Input,
+  Text,
+  HStack,
+  Heading,
+  SearchIcon,
+} from 'native-base';
 
 const ProductContainer = () => {
   const [products, setProducts] = useState([]);
@@ -24,7 +33,25 @@ const ProductContainer = () => {
   }, []);
   return (
     <View>
-      <Text>Product Container</Text>
+      <Heading>Product Container</Heading>
+      <HStack>
+        <Input
+          placeholder="Search"
+          variant="filled"
+          width="100%"
+          bg="gray.100"
+          borderRadius="10"
+          py="1"
+          px="2"
+          placeholderTextColor="gray.500"
+          _hover={{bg: 'gray.200', borderWidth: 0}}
+          borderWidth="0"
+          _web={{
+            _focus: {style: {boxShadow: 'none'}},
+          }}
+          InputLeftElement={<SearchIcon size={5} />}
+        />
+      </HStack>
       <FlatList
         numColumns={2}
         // horizontal
