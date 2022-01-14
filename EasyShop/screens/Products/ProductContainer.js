@@ -7,6 +7,7 @@ import {
   ActivityIndicator,
   // Text,
   FlatList,
+  Dimensions,
 } from 'react-native';
 import ProductList from './ProductList';
 import {
@@ -19,25 +20,50 @@ import {
   HStack,
   Heading,
   SearchIcon,
+  CloseIcon,
+  Button,
 } from 'native-base';
+import SearchedProduct from './SearchedProducts';
+
+var {width} = Dimensions.get('window');
 
 const ProductContainer = () => {
   const [products, setProducts] = useState([]);
   const [productsFiltered, setProductsFiltered] = useState([]);
+  const [focus, setFocus] = useState();
+
   useEffect(() => {
     setProducts(data);
     setProductsFiltered(data);
+    setFocus(false);
     return () => {
       setProducts([]);
+      setProductsFiltered([]);
+      setFocus();
     };
   }, []);
+
+  const searchProduct = text => {
+    setProductsFiltered(
+      products.filter(i => i.name.toLowerCase().includes(text.toLowerCase())),
+    );
+  };
+
+  const openList = () => {
+    setFocus(true);
+  };
+
+  const onBlur = () => {
+    setFocus(false);
+  };
+
   return (
     <View>
-      <Heading>Product Container</Heading>
+      {/* <Heading>Product Container</Heading> */}
       <HStack>
         <Input
           placeholder="Search"
-          variant="filled"
+          variant="outline"
           width="100%"
           bg="transparent"
           borderRadius="10"
@@ -45,20 +71,34 @@ const ProductContainer = () => {
           px="2"
           placeholderTextColor="gray.500"
           _hover={{bg: 'gray.200', borderWidth: 0}}
-          borderWidth="0"
+          borderWidth="2"
           _web={{
             _focus: {style: {boxShadow: 'none'}},
           }}
           InputLeftElement={<SearchIcon size={6} />}
+          onFocus={openList}
+          onChangeText={text => searchProduct(text)}
+          InputRightElement={
+            focus === true ? (
+              <Button onPress={onBlur} style={{backgroundColor: 'transparent'}}>
+                <CloseIcon style={{width: 15, height: 15}} />
+              </Button>
+            ) : null
+          }
         />
+        {/* {focus === true ? <Icon onPress={onBlur} name="close" /> : null} */}
       </HStack>
-      <FlatList
-        numColumns={2}
-        // horizontal
-        data={products}
-        renderItem={({item}) => <ProductList key={item.id} item={item} />}
-        keyExtractor={item => item.name}
-      />
+      {focus === true ? (
+        <SearchedProduct productsFiltered={productsFiltered} />
+      ) : (
+        <FlatList
+          numColumns={2}
+          // horizontal
+          data={products}
+          renderItem={({item}) => <ProductList key={item.id} item={item} />}
+          keyExtractor={item => item.name}
+        />
+      )}
     </View>
   );
 };

@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, Dimensions} from 'react-native';
 import {
   Container,
   Left,
@@ -11,10 +11,12 @@ import {
   Content,
 } from 'native-base';
 
+var {width} = Dimensions;
+
 const SearchedProduct = props => {
   const {productsFiltered} = props;
   return (
-    <Container>
+    <Container style={{width: width}}>
       {productsFiltered.length > 0 ? (
         productsFiltered.map(item => {
           <ListItem key={item._id.$oid} avatar>
@@ -45,7 +47,9 @@ const SearchedProduct = props => {
 const styles = StyleSheet.create({
   center: {
     justifyContent: 'center',
-    alignContent: 'center',
+    alignItems: 'center',
+    height: 80,
   },
 });
+
 export default SearchedProduct;
