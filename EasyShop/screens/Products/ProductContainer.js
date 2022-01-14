@@ -23,10 +23,10 @@ import {
 
 const ProductContainer = () => {
   const [products, setProducts] = useState([]);
-
+  const [productsFiltered, setProductsFiltered] = useState([]);
   useEffect(() => {
     setProducts(data);
-
+    setProductsFiltered(data);
     return () => {
       setProducts([]);
     };
@@ -39,7 +39,7 @@ const ProductContainer = () => {
           placeholder="Search"
           variant="filled"
           width="100%"
-          bg="gray.100"
+          bg="transparent"
           borderRadius="10"
           py="1"
           px="2"
@@ -49,7 +49,7 @@ const ProductContainer = () => {
           _web={{
             _focus: {style: {boxShadow: 'none'}},
           }}
-          InputLeftElement={<SearchIcon size={5} />}
+          InputLeftElement={<SearchIcon size={6} />}
         />
       </HStack>
       <FlatList
