@@ -8,9 +8,9 @@ import {
   FlatList,
 } from 'react-native';
 import ProductList from './ProductList';
-// import dataInfo from 'EasyShop/assets/data/products.json';
+// import data2 from 'EasyShop/assets/data/products.json';
 
-// const data = require('EasyShop/assets/data/products.json');
+// const data2 = require('EasyShop/assets/data/products.json');
 
 const ProductContainer = () => {
   const [products, setProducts] = useState([]);
@@ -19,10 +19,9 @@ const ProductContainer = () => {
     setProducts(data);
 
     return () => {
-      setProducts(data);
+      setProducts([]);
     };
   }, []);
-
   return (
     <View>
       <Text>Product Container</Text>
@@ -30,9 +29,7 @@ const ProductContainer = () => {
         numColumns={2}
         // horizontal
         data={products}
-        renderItem={({item}) => (
-          <ProductList key={item.id}>{item.brand}</ProductList>
-        )}
+        renderItem={({item}) => <ProductList key={item.id} item={item} />}
         keyExtractor={item => item.name}
       />
     </View>
