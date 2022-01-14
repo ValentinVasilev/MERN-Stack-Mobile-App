@@ -7,6 +7,7 @@ import {
   Text,
   FlatList,
 } from 'react-native';
+import ProductList from './ProductList';
 // import dataInfo from 'EasyShop/assets/data/products.json';
 
 // const data = require('EasyShop/assets/data/products.json');
@@ -26,8 +27,12 @@ const ProductContainer = () => {
     <View>
       <Text>Product Container</Text>
       <FlatList
+        numColumns={2}
+        // horizontal
         data={products}
-        renderItem={({item}) => <Text>{item.brand}</Text>}
+        renderItem={({item}) => (
+          <ProductList key={item.id}>{item.brand}</ProductList>
+        )}
         keyExtractor={item => item.name}
       />
     </View>
