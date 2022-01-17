@@ -1,3 +1,4 @@
+/* eslint-disable no-lone-blocks */
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react/self-closing-comp */
 /* eslint-disable prettier/prettier */
@@ -17,6 +18,7 @@ const ProductContainer = () => {
   const [productsFiltered, setProductsFiltered] = useState([]);
   const [focus, setFocus] = useState();
   const [categories, setCategories] = useState([]);
+  const [productsCtg, setProductsCtg] = useState([]);
   const [active, setActive] = useState();
   const [initialState, setInitialState] = useState([]);
 
@@ -50,6 +52,21 @@ const ProductContainer = () => {
 
   const onBlur = () => {
     setFocus(false);
+  };
+
+  // Categories
+
+  const changeCtg = ctg => {
+    {
+      ctg === 'all'
+        ? [setProductsCtg(initialState), setActive(true)]
+        : [
+            setProductsCtg(
+              products.filter(i => i.category._id === ctg),
+              setActive(true),
+            ),
+          ];
+    }
   };
 
   return (
@@ -89,7 +106,13 @@ const ProductContainer = () => {
           <View>
             <Banner />
           </View>
-          <CategoryFilter />
+          <CategoryFilter
+            categories={categories}
+            categoryFilter={changeCtg}
+            productsCtg={productsCtg}
+            active={active}
+            setActive={setActive}
+          />
           <FlatList
             numColumns={2}
             data={products}
@@ -110,7 +133,7 @@ const data = [
       $oid: '5f15d8852a025143f9593a7c',
     },
     image:
-      'https://lh3.googleusercontent.com/proxy/PHMeEUxncFvxo71Hbw80j6G8IEv8CHaKUPMbfIAU_XfRTkc-S72ohLqMtiU0Ch-yZG9flgxaK1VXh0W4aIzZawc1Z2Yi',
+      'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.ozone.bg%2Fproduct%2Ffifa-20-ps4%2F&psig=AOvVaw1gYATf2m4Rdz60nyHE82Ix&ust=1642509009191000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCLDIpIPluPUCFQAAAAAdAAAAABAD',
     brand: 'PS3',
     price: 250,
     rating: 1,
