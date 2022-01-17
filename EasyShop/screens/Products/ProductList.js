@@ -8,8 +8,6 @@ var {width} = Dimensions.get('window');
 
 const ProductList = props => {
   const {item} = props;
-  // console.log(item, 'Product List - item');
-  //   console.log(item);
 
   return (
     <TouchableOpacity style={{width: '50%'}}>

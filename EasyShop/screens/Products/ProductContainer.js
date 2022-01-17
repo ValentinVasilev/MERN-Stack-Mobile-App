@@ -1,28 +1,10 @@
+/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react/self-closing-comp */
 /* eslint-disable prettier/prettier */
 import React, {useState, useEffect} from 'react';
-import {
-  View,
-  StyleSheet,
-  ActivityIndicator,
-  // Text,
-  FlatList,
-  Dimensions,
-} from 'react-native';
+import {View, FlatList, Dimensions} from 'react-native';
+import {Input, HStack, SearchIcon, CloseIcon, Button, Text} from 'native-base';
 import ProductList from './ProductList';
-import {
-  Container,
-  Header,
-  Icon,
-  Item,
-  Input,
-  Text,
-  HStack,
-  Heading,
-  SearchIcon,
-  CloseIcon,
-  Button,
-} from 'native-base';
 import SearchedProduct from './SearchedProducts';
 
 var {width} = Dimensions.get('window');
@@ -91,6 +73,9 @@ const ProductContainer = () => {
       {focus === true ? (
         <SearchedProduct productsFiltered={productsFiltered} />
       ) : (
+        // <View>
+        //   <Text>Are you search for something ?</Text>
+        // </View>
         <FlatList
           numColumns={2}
           // horizontal
@@ -98,6 +83,9 @@ const ProductContainer = () => {
           renderItem={({item}) => <ProductList key={item.id} item={item} />}
           keyExtractor={item => item.name}
         />
+        // <View>
+        //   <Text>Hello</Text>
+        // </View>
       )}
     </View>
   );
