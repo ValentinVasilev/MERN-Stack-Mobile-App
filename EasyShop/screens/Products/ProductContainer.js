@@ -8,6 +8,7 @@ import ProductList from './ProductList';
 import SearchedProduct from './SearchedProducts';
 import Banner from '../../shared/Banner';
 import category from '../../assets/data/categories.json';
+import CategoryFilter from './CategoryFilter';
 
 var {width} = Dimensions.get('window');
 
@@ -33,7 +34,7 @@ const ProductContainer = () => {
       setFocus();
       setCategories([]);
       setActive();
-      setInitialState()
+      setInitialState();
     };
   }, []);
 
@@ -88,6 +89,7 @@ const ProductContainer = () => {
           <View>
             <Banner />
           </View>
+          <CategoryFilter />
           <FlatList
             numColumns={2}
             data={products}
