@@ -6,6 +6,7 @@ import {View, FlatList, Dimensions} from 'react-native';
 import {Input, HStack, SearchIcon, CloseIcon, Button, Text} from 'native-base';
 import ProductList from './ProductList';
 import SearchedProduct from './SearchedProducts';
+import Banner from '../../shared/Banner';
 
 var {width} = Dimensions.get('window');
 
@@ -68,24 +69,21 @@ const ProductContainer = () => {
             ) : null
           }
         />
-        {/* {focus === true ? <Icon onPress={onBlur} name="close" /> : null} */}
       </HStack>
       {focus === true ? (
         <SearchedProduct productsFiltered={productsFiltered} />
       ) : (
-        // <View>
-        //   <Text>Are you search for something ?</Text>
-        // </View>
-        <FlatList
-          numColumns={2}
-          // horizontal
-          data={products}
-          renderItem={({item}) => <ProductList key={item.id} item={item} />}
-          keyExtractor={item => item.name}
-        />
-        // <View>
-        //   <Text>Hello</Text>
-        // </View>
+        <View>
+          <View>
+            <Banner />
+          </View>
+          <FlatList
+            numColumns={2}
+            data={products}
+            renderItem={({item}) => <ProductList key={item.id} item={item} />}
+            keyExtractor={item => item.name}
+          />
+        </View>
       )}
     </View>
   );
