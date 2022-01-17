@@ -3,15 +3,23 @@
 /* eslint-disable react/self-closing-comp */
 /* eslint-disable prettier/prettier */
 import React, {useState, useEffect} from 'react';
-import {View, FlatList, Dimensions} from 'react-native';
-import {Input, HStack, SearchIcon, CloseIcon, Button, Text} from 'native-base';
+import {View, FlatList, Dimensions, StyleSheet} from 'react-native';
+import {
+  Input,
+  HStack,
+  SearchIcon,
+  CloseIcon,
+  Button,
+  Text,
+  ScrollView,
+} from 'native-base';
 import ProductList from './ProductList';
 import SearchedProduct from './SearchedProducts';
 import Banner from '../../shared/Banner';
 import category from '../../assets/data/categories.json';
 import CategoryFilter from './CategoryFilter';
 
-var {width} = Dimensions.get('window');
+var {height} = Dimensions.get('window');
 
 const ProductContainer = () => {
   const [products, setProducts] = useState([]);
@@ -27,6 +35,7 @@ const ProductContainer = () => {
     setProductsFiltered(data);
     setFocus(false);
     setCategories(category);
+    setProductsCtg(data);
     setActive(-1);
     setInitialState(data);
 
@@ -62,7 +71,7 @@ const ProductContainer = () => {
         ? [setProductsCtg(initialState), setActive(true)]
         : [
             setProductsCtg(
-              products.filter(i => i.category._id === ctg),
+              products.filter(i => i.category.$oid === ctg),
               setActive(true),
             ),
           ];
@@ -102,29 +111,54 @@ const ProductContainer = () => {
       {focus === true ? (
         <SearchedProduct productsFiltered={productsFiltered} />
       ) : (
-        <View>
+        <ScrollView>
           <View>
             <Banner />
           </View>
-          <CategoryFilter
-            categories={categories}
-            categoryFilter={changeCtg}
-            productsCtg={productsCtg}
-            active={active}
-            setActive={setActive}
-          />
-          <FlatList
-            numColumns={2}
-            data={products}
-            renderItem={({item}) => <ProductList key={item.id} item={item} />}
-            keyExtractor={item => item.name}
-          />
-        </View>
+          <View>
+            <CategoryFilter
+              categories={categories}
+              categoryFilter={changeCtg}
+              productsCtg={productsCtg}
+              active={active}
+              setActive={setActive}
+            />
+          </View>
+          {productsCtg.length > 0 ? (
+            <View style={styles.listContainer}>
+              {productsCtg.map(item => {
+                return <ProductList key={item._id.$oid} item={item} />;
+              })}
+            </View>
+          ) : (
+            <View style={([styles.center], {height: '40%'})}>
+              <Text>No Products found!</Text>
+            </View>
+          )}
+        </ScrollView>
       )}
     </View>
   );
 };
 
+const styles = StyleSheet.create({
+  container: {
+    flexWrap: 'wrap',
+    backgroundColor: 'gainsboro',
+  },
+  listContainer: {
+    height: height,
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    flexWrap: 'wrap',
+    backgroundColor: 'gainsboro',
+  },
+  center: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
 export default ProductContainer;
 
 const data = [

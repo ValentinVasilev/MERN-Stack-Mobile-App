@@ -11,7 +11,8 @@ const CategoryFilter = props => {
   //   props.categories.map(ctg => console.log(ctg));
   //   console.log(props.categories[2].name);
   //   console.log(categories.map(i => i.name));
-  console.log(categories.map(i => i.name));
+  //   console.log(categories.map(i => i._id.$oid));
+  //   console.log(categories);
   return (
     <ScrollView
       bounces={true}
@@ -37,16 +38,16 @@ const CategoryFilter = props => {
         return (
           <TouchableOpacity
             style={{margin: 0, padding: 0, borderRadius: 0}}
-            key={item._id}
+            key={item._id.$oid}
             onPress={() => {
-              props.categoryFilter(item._id);
-              props.setActive(props.categories.indexOf(item));
+              props.categoryFilter(item._id.$oid);
+              props.setActive(categories.indexOf(item));
             }}>
             <Badge
               style={[
                 styles.center,
                 {margin: 5, backgroundColor: 'red', borderRadius: 20},
-                props.active === props.categories.indexOf(item)
+                props.active === categories.indexOf(item)
                   ? styles.active
                   : styles.inActive,
               ]}>
