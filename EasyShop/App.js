@@ -9,26 +9,9 @@
 
 import React, {useState} from 'react';
 import type {Node} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-  Button,
-} from 'react-native';
+import {StyleSheet, Text, useColorScheme, View, LogBox} from 'react-native';
 
-import {
-  Colors,
-  DebugInstructions,
-  // Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-// import TodoList from './components/todoList';
-// import Todo from './components/Todo';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 import ProductContainer from './screens/Products/ProductContainer';
 import Header from './shared/Header';
 import {NativeBaseProvider} from 'native-base';
@@ -58,6 +41,8 @@ const Section = ({children, title}): Node => {
     </View>
   );
 };
+
+LogBox.ignoreAllLogs(true);
 
 const App: () => Node = () => {
   const [title, setTitle] = useState('Todo List');

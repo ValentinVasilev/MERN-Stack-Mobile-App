@@ -34,26 +34,32 @@ const SearchedProduct = props => {
     //     </View>
     //   )}
     // </Container>
-    <ScrollView>
-      {productsFiltered.map(item => {
-        return (
-          <View>
-            <Text>{item.brand}</Text>
-            <Text>{item.name}</Text>
-            <Text note>{item.description}</Text>
-            <Image
-              style={styles.image}
-              resizeMode="contain"
-              source={{
-                uri: item.image
-                  ? item.image
-                  : 'https://cdn.pixabay.com/photo/2012/04/01/17/29/box-23649_960_720.png',
-              }}
-            />
-            <Text>________________________________</Text>
-          </View>
-        );
-      })}
+    <ScrollView style={{width: width}}>
+      {productsFiltered.length > 0 ? (
+        productsFiltered.map(item => {
+          return (
+            <View>
+              <Text>{item.brand}</Text>
+              <Text>{item.name}</Text>
+              <Text note>{item.description}</Text>
+              <Image
+                style={styles.image}
+                resizeMode="contain"
+                source={{
+                  uri: item.image
+                    ? item.image
+                    : 'https://cdn.pixabay.com/photo/2012/04/01/17/29/box-23649_960_720.png',
+                }}
+              />
+              <Text>________________________________</Text>
+            </View>
+          );
+        })
+      ) : (
+        <View style={styles.center}>
+          <Text style={{alignSelf: 'center'}}>No Products Match!</Text>
+        </View>
+      )}
     </ScrollView>
   );
 };
@@ -68,8 +74,6 @@ const styles = StyleSheet.create({
     width: 80,
     height: 60,
     backgroundColor: 'transparent',
-    // position: 'absolute',
-    // top: -45,
   },
 });
 
