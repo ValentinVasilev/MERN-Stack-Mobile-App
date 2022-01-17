@@ -7,6 +7,7 @@ import {Input, HStack, SearchIcon, CloseIcon, Button, Text} from 'native-base';
 import ProductList from './ProductList';
 import SearchedProduct from './SearchedProducts';
 import Banner from '../../shared/Banner';
+import category from '../../assets/data/categories.json';
 
 var {width} = Dimensions.get('window');
 
@@ -14,15 +15,25 @@ const ProductContainer = () => {
   const [products, setProducts] = useState([]);
   const [productsFiltered, setProductsFiltered] = useState([]);
   const [focus, setFocus] = useState();
+  const [categories, setCategories] = useState([]);
+  const [active, setActive] = useState();
+  const [initialState, setInitialState] = useState([]);
 
   useEffect(() => {
     setProducts(data);
     setProductsFiltered(data);
     setFocus(false);
+    setCategories(category);
+    setActive(-1);
+    setInitialState(data);
+
     return () => {
       setProducts([]);
       setProductsFiltered([]);
       setFocus();
+      setCategories([]);
+      setActive();
+      setInitialState()
     };
   }, []);
 
