@@ -12,35 +12,41 @@ import type {Node} from 'react';
 import {StyleSheet, Text, useColorScheme, View, LogBox} from 'react-native';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
+import {NativeBaseProvider} from 'native-base';
+import {NavigationContainer} from '@react-navigation/native';
+
+// Navigators
+import Main from './Navigators/Main';
+
+// Screens
 import ProductContainer from './screens/Products/ProductContainer';
 import Header from './shared/Header';
-import {NativeBaseProvider} from 'native-base';
 
-const Section = ({children, title}): Node => {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-};
+// const Section = ({children, title}): Node => {
+//   const isDarkMode = useColorScheme() === 'dark';
+//   return (
+//     <View style={styles.sectionContainer}>
+//       <Text
+//         style={[
+//           styles.sectionTitle,
+//           {
+//             color: isDarkMode ? Colors.white : Colors.black,
+//           },
+//         ]}>
+//         {title}
+//       </Text>
+//       <Text
+//         style={[
+//           styles.sectionDescription,
+//           {
+//             color: isDarkMode ? Colors.light : Colors.dark,
+//           },
+//         ]}>
+//         {children}
+//       </Text>
+//     </View>
+//   );
+// };
 
 LogBox.ignoreAllLogs(true);
 
@@ -54,12 +60,14 @@ const App: () => Node = () => {
     }
   }
   return (
-    <NativeBaseProvider>
-      <View style={styles.container}>
+    <NavigationContainer>
+      <NativeBaseProvider>
+        {/* <View style={styles.container}> */}
         <Header />
-        <ProductContainer />
-      </View>
-    </NativeBaseProvider>
+        <Main />
+        {/* </View> */}
+      </NativeBaseProvider>
+    </NavigationContainer>
   );
 };
 
