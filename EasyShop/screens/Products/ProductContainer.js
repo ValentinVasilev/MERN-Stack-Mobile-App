@@ -108,7 +108,10 @@ const ProductContainer = props => {
         />
       </HStack>
       {focus === true ? (
-        <SearchedProduct productsFiltered={productsFiltered} />
+        <SearchedProduct
+          productsFiltered={productsFiltered}
+          navigation={props.navigation}
+        />
       ) : (
         <ScrollView>
           <View>
@@ -171,8 +174,7 @@ const data = [
     _id: {
       $oid: '5f15d8852a025143f9593a7c',
     },
-    image:
-      'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.ozone.bg%2Fproduct%2Ffifa-20-ps4%2F&psig=AOvVaw1gYATf2m4Rdz60nyHE82Ix&ust=1642509009191000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCLDIpIPluPUCFQAAAAAdAAAAABAD',
+    image: '../../assets/data/fifa20.jpg',
     brand: 'PS3',
     price: 250,
     rating: 1,

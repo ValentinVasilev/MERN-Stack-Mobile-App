@@ -3,6 +3,7 @@
 import React from 'react';
 import {View, StyleSheet, Dimensions, Image, ScrollView} from 'react-native';
 import {Text} from 'native-base';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 
 var {width} = Dimensions;
 
@@ -13,7 +14,10 @@ const SearchedProduct = props => {
       {productsFiltered.length > 0 ? (
         productsFiltered.map(item => {
           return (
-            <View>
+            <TouchableOpacity
+              onPress={() =>
+                props.navigation.navigate('Product Detail', {item: item})
+              }>
               <Text>{item.brand}</Text>
               <Text>{item.name}</Text>
               <Text note>{item.description}</Text>
@@ -27,7 +31,7 @@ const SearchedProduct = props => {
                 }}
               />
               <Text>________________________________</Text>
-            </View>
+            </TouchableOpacity>
           );
         })
       ) : (
