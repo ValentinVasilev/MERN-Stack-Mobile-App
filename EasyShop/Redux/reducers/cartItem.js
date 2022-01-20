@@ -1,8 +1,5 @@
-/* eslint-disable prettier/prettier */ import {
-  ADD_TO_CART,
-  REMOVE_FROM_CART,
-  CLEAR_CART,
-} from '../constants';
+/* eslint-disable prettier/prettier */
+import {ADD_TO_CART, REMOVE_FROM_CART, CLEAR_CART} from '../constants';
 
 const cartItems = (state = [], action) => {
   switch (action.type) {

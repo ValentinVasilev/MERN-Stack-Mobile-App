@@ -1,6 +1,8 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
 import {StyleSheet, Dimensions, Image, Text, Button, View} from 'react-native';
+import {connect} from 'react-redux';
+import * as actions from '../../Redux/actions/cartActions';
 
 var {width} = Dimensions.get('window');
 
@@ -25,7 +27,7 @@ const ProductCard = props => {
       <Text style={styles.price}>${price}</Text>
       {countInStock > 0 ? (
         <View style={{marginBottom: 60}}>
-          <Button title={'ADD'} color="green"></Button>
+          <Button title={'ADD'} color="green" onPress={() => props.addItemToCart(props)}/>
         </View>
       ) : (
         <Text style={styles.margin}>Currently Unavailable</Text>
@@ -33,7 +35,14 @@ const ProductCard = props => {
     </View>
   );
 };
-export default ProductCard;
+
+const mapDispatchToProps = dispatch => {
+  return {
+    addItemToCart: product =>
+      dispatch(actions.addToCart({quantity: 1, product})),
+  };
+};
+export default connect(null, mapDispatchToProps)(ProductCard);
 
 const styles = StyleSheet.create({
   container: {

@@ -7,12 +7,6 @@ import {ListItem, Badge, Text, List} from 'native-base';
 
 const CategoryFilter = props => {
   const {categories} = props;
-  //   const {productsCtg} = props;
-  //   props.categories.map(ctg => console.log(ctg));
-  //   console.log(props.categories[2].name);
-  //   console.log(categories.map(i => i.name));
-  //   console.log(categories.map(i => i._id.$oid));
-  //   console.log(categories);
   return (
     <ScrollView
       bounces={true}
