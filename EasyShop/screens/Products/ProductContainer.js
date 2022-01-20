@@ -190,22 +190,23 @@ const data = [
   },
   {
     _id: {
-      $oid: '5f15d92ee520d44421ed8e9b',
+      $oid: '5f15d92ee520d44421ed8e4b',
     },
     image: '',
     brand: 'IKEA',
-    price: 350.9,
+    price: 0.5,
     rating: 5,
     numReviews: 0,
     isFeatured: true,
-    name: 'Garden Chair',
-    description: 'beautiful chair for garden',
+    name: 'Kiros`s Kashon',
+    description: 'Kiro`s kashon',
     category: {
       $oid: '5f15d5b7cb4a6642bddc0fe8',
     },
     countInStock: 10,
     __v: 0,
   },
+
   {
     _id: {
       $oid: '5f15d964e520d44421ed8e9c',

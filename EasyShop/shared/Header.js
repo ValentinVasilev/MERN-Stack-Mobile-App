@@ -23,6 +23,6 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     justifyContent: 'center',
     padding: 20,
-    marginTop: 80,
+    // marginTop: 80,
   },
 });
