@@ -15,38 +15,16 @@ import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {NativeBaseProvider} from 'native-base';
 import {NavigationContainer} from '@react-navigation/native';
 
+// Redux
+import {Provider} from 'react-redux';
+import store from './Redux/store';
+
 // Navigators
 import Main from './Navigators/Main';
 
 // Screens
 import ProductContainer from './screens/Products/ProductContainer';
 import Header from './shared/Header';
-
-// const Section = ({children, title}): Node => {
-//   const isDarkMode = useColorScheme() === 'dark';
-//   return (
-//     <View style={styles.sectionContainer}>
-//       <Text
-//         style={[
-//           styles.sectionTitle,
-//           {
-//             color: isDarkMode ? Colors.white : Colors.black,
-//           },
-//         ]}>
-//         {title}
-//       </Text>
-//       <Text
-//         style={[
-//           styles.sectionDescription,
-//           {
-//             color: isDarkMode ? Colors.light : Colors.dark,
-//           },
-//         ]}>
-//         {children}
-//       </Text>
-//     </View>
-//   );
-// };
 
 LogBox.ignoreAllLogs(true);
 
@@ -60,14 +38,16 @@ const App: () => Node = () => {
     }
   }
   return (
-    <NavigationContainer>
-      <NativeBaseProvider>
-        {/* <View style={styles.container}> */}
-        <Header />
-        <Main />
-        {/* </View> */}
-      </NativeBaseProvider>
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <NativeBaseProvider>
+          {/* <View style={styles.container}> */}
+          <Header />
+          <Main />
+          {/* </View> */}
+        </NativeBaseProvider>
+      </NavigationContainer>
+    </Provider>
   );
 };
 
