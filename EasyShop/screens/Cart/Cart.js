@@ -73,17 +73,22 @@ const Cart = props => {
           <Text style={{color: 'black'}}>Add products to your cart to get started.</Text>
         </Container>
       )}
-      <Container style={styles.bottomContainer}>
+      {props.cartItems.length ? (   <Container style={styles.bottomContainer}>
         <View>
         <Text style={{color: 'red', fontSize: 18, paddingRight: 15, fontWeight: 'bold'}}> <Text style={{color: 'black'}}>Total Price:</Text> ${total}</Text>
         </View>
         <View style={{ paddingLeft: 15, paddingRight: 15 }}>
-          <Button title="Clear"/>
+          <Button title="Clear" onPress={() => props.clearCart()}/>
         </View>
           <View style={{ paddingLeft: 15, paddingRight: 15}}>
           <Button title='Checkout' onPress={() => props.navigation.navigate('CheckOut')}/>
         </View>
-      </Container>
+      </Container>)
+        : (
+       null
+    )  
+    }
+      
     </>
   );
 };
@@ -95,6 +100,12 @@ const mapStateToProps = state => {
   };
 };
 
+const mapDispatchToProps = (dispatch) => {
+  return {
+    clearCart: () => dispatch(actions.clearCart()),
+    removeFromCart: (item) => dispatch(actions.removeFromCart(item))
+    }
+}
 const styles = StyleSheet.create({
   emptyContainer: {
     height: height,
@@ -124,7 +135,7 @@ const styles = StyleSheet.create({
     marginBottom: 25,
     color: 'black',
     fontSize: 15,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
     // borderBottomWidth: 0.8,
     // alignSelf: 'flex-end',
     // marginLeft: 50,
@@ -137,6 +148,6 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     paddingBottom: 25,
-  }
+  },
 });
-export default connect(mapStateToProps, null)(Cart);
+export default connect(mapStateToProps, mapDispatchToProps)(Cart);
