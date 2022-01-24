@@ -1,15 +1,18 @@
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 /* eslint-disable prettier/prettier */
 import React, {useEffect, useState} from 'react';
 import { View, Text, Button } from 'react-native';
-import { Item, Picker } from 'native-base';
+import { Item, Picker, Select } from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome'
 import FormContainer from '../../../shared/Form/FormContainer';
 import Input from '../../../shared/Form/Input';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { connect } from 'react-redux';
 
-const countries = require('../../../assets/data/categories.json');
+const countries = require('../../../assets/data/countries.json');
+
 const Checkout = (props) => {
 
     const [orderItems, setOrderItems] = useState('');
@@ -25,10 +28,10 @@ const Checkout = (props) => {
 
         return () => {
             orderItems();
-        }
-    }, [])
+        };
+    }, []);
 
-    const Checkout = () => {
+    const CheckOut = () => {
         let order = {
             city,
             country,
@@ -38,10 +41,10 @@ const Checkout = (props) => {
             shippingAddress1: address,
             shippingAddress2: address2,
             zipcode,
-        }
-        
-        props.navigateion.navigate("Payment", {order:order})
-    }
+        };
+        props.navigateion.navigate('Payment', { order: order });
+    };
+
     return (
         <KeyboardAwareScrollView
             viewIsInsideTabBar={true}
@@ -49,44 +52,44 @@ const Checkout = (props) => {
             enableOnAndroid={true}
         >
             <FormContainer
-            title={"Shipping Address"}
+            title={'Shipping Address'}
             >
                 <Input
-                    placeholder={"Phone"}
-                    name={"phone"}
+                    placeholder={'Phone'}
+                    name={'phone'}
                     value={phone}
-                    keyboardType={"numeric"}
+                    keyboardType={'numeric'}
                     onChangeText={(text) => setPhone(text)}
                 />
                    <Input
-                    placeholder={"Shipping Address"}
-                    name={"shipping address"}
+                    placeholder={'Shipping Address'}
+                    name={'shipping address'}
                     value={address}
                     onChangeText={(text) => setAddress(text)}
                 />
                     <Input
-                    placeholder={"Shipping Address 2"}
-                    name={"shipping address 2"}
+                    placeholder={'Shipping Address 2'}
+                    name={'shipping address 2'}
                     value={address2}
                     onChangeText={(text) => setAddress2(text)}
                 />
                       <Input
-                    placeholder={"City"}
-                    name={"city"}
+                    placeholder={'City'}
+                    name={'city'}
                     value={city}
                     onChangeText={(text) => setCity(text)}
                 />
                         <Input
-                    placeholder={"ZipCode"}
-                    name={"Zip code"}
+                    placeholder={'ZipCode'}
+                    name={'Zip code'}
                     value={zipcode}
-                    keyboardType={"numeric"}
+                    keyboardType={'numeric'}
                     onChangeText={(text) => setZipcode(text)}
                 />
-                <Item picker>
-                    <Picker
+                <View >
+                    <Select
                         mode="dropdown"
-                        iosIcon={<Icon name='arrow-down' color={"#007aff"} />}
+                        iosIcon={<Icon name="arrow-down" color={'#007aff'} />}
                         style={{ with: undefined }}
                         selectedValue={country}
                         placeholder="Select your country"
@@ -96,15 +99,13 @@ const Checkout = (props) => {
                     >
                         {countries.map((c) => {
                             return (
-                                <Picker.Item key={c.code} label={c.name} value={c.name}>
-                                    
-                           </Picker.Item>
-                       )
+                                <Select.Item key={c.code} label={c.name} value={c.name} />
+                            );
                    })}
-                </Picker>
-                </Item>
+                </Select>
+                </View>
                 <View style={{width: '80%', alignItems: 'center'}}>
-                   <Button title='Confirm' onPress={() => Checkout()}/>
+                   <Button title="Confirm" onPress={() => CheckOut()}/>
                 </View>
             </FormContainer>
     </KeyboardAwareScrollView>
@@ -115,6 +116,6 @@ const MapStateToProps = (state) => {
     const { cartItems } = state;
     return (
         cartItems
-    )
-}
+    );
+};
 export default connect(MapStateToProps)(Checkout);
