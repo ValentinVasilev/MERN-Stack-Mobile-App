@@ -14,8 +14,8 @@ const Confirm = (props) => {
     setTimeout(() => {
       props.clearCart();
       props.navigation.navigate('Cart');
-    }, 500)
-  }
+    }, 500);
+  };
     return (
         <ScrollView contentContainerStyle={styles.container}>
             <View style={styles.titleContainer}>
