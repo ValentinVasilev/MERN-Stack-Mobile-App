@@ -2,8 +2,8 @@
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react/self-closing-comp */
 /* eslint-disable prettier/prettier */
-import React, {useState, useEffect} from 'react';
-import {View, Dimensions, StyleSheet} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Dimensions, StyleSheet } from 'react-native';
 import {
   Input,
   HStack,
@@ -19,7 +19,11 @@ import Banner from '../../shared/Banner';
 import category from '../../assets/data/categories.json';
 import CategoryFilter from './CategoryFilter';
 
-var {height} = Dimensions.get('window');
+import baseURL from '../../assets/common/baseURL';
+import axios from 'axios';
+
+
+var { height } = Dimensions.get('window');
 
 const ProductContainer = props => {
   const [products, setProducts] = useState([]);
@@ -31,13 +35,19 @@ const ProductContainer = props => {
   const [initialState, setInitialState] = useState([]);
 
   useEffect(() => {
-    setProducts(data);
-    setProductsFiltered(data);
     setFocus(false);
     setCategories(category);
-    setProductsCtg(data);
     setActive(-1);
-    setInitialState(data);
+
+    axios.get(`${baseURL}products`)
+      .then(res => {
+        setProducts(res.data);
+        setProductsFiltered(res.data);
+        setProductsCtg(res.data);
+        setInitialState(res.data);
+
+
+      })
 
     return () => {
       setProducts([]);
@@ -70,11 +80,11 @@ const ProductContainer = props => {
       ctg === 'all'
         ? [setProductsCtg(initialState), setActive(true)]
         : [
-            setProductsCtg(
-              products.filter(i => i.category.$oid === ctg),
-              setActive(true),
-            ),
-          ];
+          setProductsCtg(
+            products.filter(i => i.category.$oid === ctg),
+            setActive(true),
+          ),
+        ];
     }
   };
 
@@ -90,18 +100,18 @@ const ProductContainer = props => {
           py="1"
           px="2"
           placeholderTextColor="gray.500"
-          _hover={{bg: 'gray.200', borderWidth: 0}}
+          _hover={{ bg: 'gray.200', borderWidth: 0 }}
           borderWidth="2"
           _web={{
-            _focus: {style: {boxShadow: 'none'}},
+            _focus: { style: { boxShadow: 'none' } },
           }}
           InputLeftElement={<SearchIcon size={6} />}
           onFocus={openList}
           onChangeText={text => searchProduct(text)}
           InputRightElement={
             focus === true ? (
-              <Button onPress={onBlur} style={{backgroundColor: 'transparent'}}>
-                <CloseIcon style={{width: 15, height: 15}} />
+              <Button onPress={onBlur} style={{ backgroundColor: 'transparent' }}>
+                <CloseIcon style={{ width: 15, height: 15 }} />
               </Button>
             ) : null
           }
@@ -139,7 +149,7 @@ const ProductContainer = props => {
               })}
             </View>
           ) : (
-            <View style={([styles.center], {height: '40%'})}>
+            <View style={([styles.center], { height: '40%' })}>
               <Text>No Products found!</Text>
             </View>
           )}
