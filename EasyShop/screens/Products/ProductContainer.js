@@ -16,7 +16,6 @@ import {
 import ProductList from './ProductList';
 import SearchedProduct from './SearchedProducts';
 import Banner from '../../shared/Banner';
-import category from '../../assets/data/categories.json';
 import CategoryFilter from './CategoryFilter';
 
 import baseURL from '../../assets/common/baseURL';
@@ -36,17 +35,27 @@ const ProductContainer = props => {
 
   useEffect(() => {
     setFocus(false);
-    setCategories(category);
     setActive(-1);
 
+    // Products
     axios.get(`${baseURL}products`)
       .then(res => {
         setProducts(res.data);
         setProductsFiltered(res.data);
         setProductsCtg(res.data);
         setInitialState(res.data);
+      }).catch(err => {
+        console.log('API call Error', err);
+      });
 
-
+    // Categories
+    axios
+      .get(`${baseURL}categories`)
+      .then((res) => {
+        setCategories(res.data)
+      })
+      .catch((error) => {
+        console.log('Api call error')
       })
 
     return () => {
@@ -75,14 +84,14 @@ const ProductContainer = props => {
 
   // Categories
 
-  const changeCtg = ctg => {
+  const changeCtg = (ctg) => {
     {
       ctg === 'all'
         ? [setProductsCtg(initialState), setActive(true)]
         : [
           setProductsCtg(
-            products.filter(i => i.category.$oid === ctg),
-            setActive(true),
+            products.filter((i) => i.category._id === ctg),
+            setActive(true)
           ),
         ];
     }
