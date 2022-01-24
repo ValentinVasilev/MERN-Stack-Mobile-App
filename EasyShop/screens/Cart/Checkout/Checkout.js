@@ -42,7 +42,7 @@ const Checkout = (props) => {
             shippingAddress2: address2,
             zipcode,
         };
-        props.navigateion.navigate('Payment', { order: order });
+        props.navigation.navigate('Payment', { order: order });
     };
 
     return (
