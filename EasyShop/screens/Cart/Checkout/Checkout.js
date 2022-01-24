@@ -3,8 +3,8 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable prettier/prettier */
 import React, {useEffect, useState} from 'react';
-import { View, Text, Button } from 'react-native';
-import { Item, Picker, Select } from 'native-base';
+import { View, Button } from 'react-native';
+import {Select } from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome'
 import FormContainer from '../../../shared/Form/FormContainer';
 import Input from '../../../shared/Form/Input';
@@ -89,6 +89,7 @@ const Checkout = (props) => {
                 <View >
                     <Select
                         mode="dropdown"
+                        dropdownIcon={<Icon name="arrow-down" color={'#007aff'} />}
                         iosIcon={<Icon name="arrow-down" color={'#007aff'} />}
                         style={{ with: undefined }}
                         selectedValue={country}
