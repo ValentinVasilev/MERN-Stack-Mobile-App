@@ -10,6 +10,7 @@ import FormContainer from '../../../shared/Form/FormContainer';
 import Input from '../../../shared/Form/Input';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { connect } from 'react-redux';
+import { convertAbsoluteToRem } from 'native-base/lib/typescript/theme/tools';
 
 const countries = require('../../../assets/data/countries.json');
 
@@ -27,16 +28,18 @@ const Checkout = (props) => {
         setOrderItems(props.cartItems);
 
         return () => {
-            orderItems();
+                setOrderItems();
         };
     }, []);
-
+    // console.log('orderItems -->', props)
+    // console.log('Cat Items ==>', props.cartItems);
+    // console.log('orderItems ---->', orderItems);
     const CheckOut = () => {
         let order = {
             city,
             country,
             dateOrder: Date.now(),
-            orderItems,
+            orderItems: orderItems,
             phone,
             shippingAddress1: address,
             shippingAddress2: address2,
@@ -91,7 +94,7 @@ const Checkout = (props) => {
                         mode="dropdown"
                         dropdownIcon={<Icon name="arrow-down" color={'#007aff'} />}
                         iosIcon={<Icon name="arrow-down" color={'#007aff'} />}
-                        style={{ with: undefined }}
+                        style={{ width: undefined }}
                         selectedValue={country}
                         placeholder="Select your country"
                         placeholderStyle={{ color: '007aff' }}
@@ -112,11 +115,11 @@ const Checkout = (props) => {
     </KeyboardAwareScrollView>
 );
 };
-
-const MapStateToProps = (state) => {
+const mapStateToProps = (state) => {
     const { cartItems } = state;
-    return (
-        cartItems
-    );
-};
-export default connect(MapStateToProps)(Checkout);
+    return {
+        cartItems: cartItems,
+    }
+}
+
+export default connect(mapStateToProps)(Checkout)
