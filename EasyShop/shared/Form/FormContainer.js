@@ -6,12 +6,12 @@ var { width } = Dimensions.get('window');
 
 const FormContainer = (props) => {
     return (
-        <ScrollView contentContainerStyle={styles.container}> 
+        <ScrollView contentContainerStyle={styles.container}>
             <Text style={styles.title}>{props.title}</Text>
             {props.children}
         </ScrollView>
-    )
-}
+    );
+};
 
 
 const styles = StyleSheet.create({
@@ -20,10 +20,11 @@ const styles = StyleSheet.create({
         marginBottom: 400,
         width: width,
         justifyContent: 'center',
-        alignContent: 'center'
+        alignContent: 'center',
     },
     title: {
-        fontSize: 30
-    }
-})
+        fontSize: 30,
+        alignSelf: 'center'
+    },
+});
 export default FormContainer;
