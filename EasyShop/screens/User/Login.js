@@ -8,6 +8,20 @@ const Login = (props) => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+
+  const handleSubmit = () => {
+    const user = {
+      email,
+      password,
+    };
+
+    if (email === '' || password === '') {
+      setError("Please fill in your credentials")
+    } else {
+      console.log('success')
+    }
+  };
 
   return (
     <FormContainer title={"Login"}>
@@ -31,7 +45,7 @@ const Login = (props) => {
       </View>
       <View style={[{ marginTop: 40 }, styles.buttonGroup]}>
         <Text style={styles.middleText}>Don't have an account yet ?</Text>
-        <Button title='Register' onPress={() => props.navigation.navigate('Register')}/>
+        <Button title='Register' onPress={() => props.navigation.navigate('Register')} />
       </View>
     </FormContainer>
   );
