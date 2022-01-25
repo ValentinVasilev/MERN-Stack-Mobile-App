@@ -160,7 +160,7 @@ const ProductContainer = props => {
                   {productsCtg.map(item => {
                     return (
                       <ProductList
-                        key={item._id.$oid}
+                        key={item._id}
                         item={item}
                         navigation={props.navigation}
                       />

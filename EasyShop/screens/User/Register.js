@@ -23,6 +23,7 @@ const Register = (props) => {
       phone === '' ||
       password === '') {
       setError('Please fill in the form correctly');
+      return;
     }
 
     let user = {
