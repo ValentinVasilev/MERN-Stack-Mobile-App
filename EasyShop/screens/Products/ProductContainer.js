@@ -3,7 +3,7 @@
 /* eslint-disable react/self-closing-comp */
 /* eslint-disable prettier/prettier */
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Dimensions, StyleSheet } from 'react-native';
+import { View, Dimensions, StyleSheet, ActivityIndicator } from 'react-native';
 import {
   Input,
   HStack,
@@ -12,6 +12,7 @@ import {
   Button,
   Text,
   ScrollView,
+  Container,
 } from 'native-base';
 import ProductList from './ProductList';
 import SearchedProduct from './SearchedProducts';
@@ -33,6 +34,7 @@ const ProductContainer = props => {
   const [productsCtg, setProductsCtg] = useState([]);
   const [active, setActive] = useState();
   const [initialState, setInitialState] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useFocusEffect((
     useCallback(() => {
@@ -46,6 +48,7 @@ const ProductContainer = props => {
           setProductsFiltered(res.data);
           setProductsCtg(res.data);
           setInitialState(res.data);
+          setLoading(false);
         }).catch(err => {
           console.log('API call Error', err);
         });
@@ -103,73 +106,86 @@ const ProductContainer = props => {
   };
 
   return (
-    <View>
-      <HStack>
-        <Input
-          placeholder="Search"
-          variant="outline"
-          width="100%"
-          bg="transparent"
-          borderRadius="10"
-          py="1"
-          px="2"
-          placeholderTextColor="gray.500"
-          _hover={{ bg: 'gray.200', borderWidth: 0 }}
-          borderWidth="2"
-          _web={{
-            _focus: { style: { boxShadow: 'none' } },
-          }}
-          InputLeftElement={<SearchIcon size={6} />}
-          onFocus={openList}
-          onChangeText={text => searchProduct(text)}
-          InputRightElement={
-            focus === true ? (
-              <Button onPress={onBlur} style={{ backgroundColor: 'transparent' }}>
-                <CloseIcon style={{ width: 15, height: 15 }} />
-              </Button>
-            ) : null
-          }
-        />
-      </HStack>
-      {focus === true ? (
-        <SearchedProduct
-          productsFiltered={productsFiltered}
-          navigation={props.navigation}
-        />
-      ) : (
-        <ScrollView>
-          <View>
-            <Banner />
-          </View>
-          <View>
-            <CategoryFilter
-              categories={categories}
-              categoryFilter={changeCtg}
-              productsCtg={productsCtg}
-              active={active}
-              setActive={setActive}
+    <>
+      {loading === false ? (
+        <View>
+          <HStack>
+            <Input
+              placeholder="Search"
+              variant="outline"
+              width="100%"
+              bg="transparent"
+              borderRadius="10"
+              py="1"
+              px="2"
+              placeholderTextColor="gray.500"
+              _hover={{ bg: 'gray.200', borderWidth: 0 }}
+              borderWidth="2"
+              _web={{
+                _focus: { style: { boxShadow: 'none' } },
+              }}
+              InputLeftElement={<SearchIcon size={6} />}
+              onFocus={openList}
+              onChangeText={text => searchProduct(text)}
+              InputRightElement={
+                focus === true ? (
+                  <Button onPress={onBlur} style={{ backgroundColor: 'transparent' }}>
+                    <CloseIcon style={{ width: 15, height: 15 }} />
+                  </Button>
+                ) : null
+              }
             />
-          </View>
-          {productsCtg.length > 0 ? (
-            <View style={styles.listContainer}>
-              {productsCtg.map(item => {
-                return (
-                  <ProductList
-                    key={item._id.$oid}
-                    item={item}
-                    navigation={props.navigation}
-                  />
-                );
-              })}
-            </View>
+          </HStack>
+          {focus === true ? (
+            <SearchedProduct
+              productsFiltered={productsFiltered}
+              navigation={props.navigation}
+            />
           ) : (
-            <View style={([styles.center], { height: '40%' })}>
-              <Text>No Products found!</Text>
-            </View>
+            <ScrollView>
+              <View>
+                <Banner />
+              </View>
+              <View>
+                <CategoryFilter
+                  categories={categories}
+                  categoryFilter={changeCtg}
+                  productsCtg={productsCtg}
+                  active={active}
+                  setActive={setActive}
+                />
+              </View>
+              {productsCtg.length > 0 ? (
+                <View style={styles.listContainer}>
+                  {productsCtg.map(item => {
+                    return (
+                      <ProductList
+                        key={item._id.$oid}
+                        item={item}
+                        navigation={props.navigation}
+                      />
+                    );
+                  })}
+                </View>
+              ) : (
+                <View style={([styles.center], { height: '40%' })}>
+                  <Text>No Products found!</Text>
+                </View>
+              )}
+            </ScrollView>
           )}
-        </ScrollView>
+        </View>
+      ) : (
+        // Loading
+        <Container style={[styles.center, { backgroundColor: '#f2f2f2' }]}>
+          <ActivityIndicator
+            size='large'
+            color='red'
+          />
+        </Container>
       )}
-    </View>
+
+    </>
   );
 };
 
