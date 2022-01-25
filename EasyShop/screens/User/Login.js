@@ -1,8 +1,10 @@
+/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
 import React, { useState } from 'react'
 import { View, Text, StyleSheet, Button } from 'react-native';
 import FormContainer from '../../shared/Form/FormContainer';
 import Input from '../../shared/Form/Input';
+import Error from '../../shared/error';
 
 const Login = (props) => {
 
@@ -17,35 +19,37 @@ const Login = (props) => {
     };
 
     if (email === '' || password === '') {
-      setError("Please fill in your credentials")
+      setError('Please fill in your credentials.');
     } else {
-      console.log('success')
+      setError('');
+      console.log('success');
     }
   };
 
   return (
-    <FormContainer title={"Login"}>
+    <FormContainer title={'Login'}>
       <Input
-        placeholder={"Enter Email"}
-        name={"email"}
-        id={"email"}
+        placeholder={'Enter Email'}
+        name={'email'}
+        id={'email'}
         value={email}
         onChangeText={(text) => setEmail(text.toLowerCase())}
       />
       <Input
-        placeholder={"Enter Password"}
-        name={"password"}
-        id={"password"}
+        placeholder={'Enter Password'}
+        name={'password'}
+        id={'password'}
         value={password}
         onChangeText={(text) => setPassword(text)}
         secureTextEntry={true}
       />
       <View style={styles.buttonGroup}>
-        <Button title='Login' />
+        {error ? <Error message={error} /> : null}
+        <Button title="Login" onPress={() => handleSubmit()} />
       </View>
       <View style={[{ marginTop: 40 }, styles.buttonGroup]}>
         <Text style={styles.middleText}>Don't have an account yet ?</Text>
-        <Button title='Register' onPress={() => props.navigation.navigate('Register')} />
+        <Button title="Register" onPress={() => props.navigation.navigate('Register')} />
       </View>
     </FormContainer>
   );
