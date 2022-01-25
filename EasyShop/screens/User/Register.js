@@ -5,6 +5,8 @@ import FormContainer from '../../shared/Form/FormContainer';
 import Input from '../../shared/Form/Input';
 import Error from '../../shared/error';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import axios from 'axios';
+import baseURL from '../../assets/common/baseURL';
 
 const Register = (props) => {
 
@@ -21,6 +23,26 @@ const Register = (props) => {
       password === '') {
       setError('Please fill in the form correctly');
     }
+
+    let user = {
+      name: name,
+      email: email,
+      password: password,
+      phone: phone,
+      isAdmin: false,
+    };
+
+    axios.post(`${baseURL}users/register`, user)
+      .then(res => {
+        if (res.status(200)) {
+          setTimeout(() => {
+            props.navigation.navigate('Login');
+          }, 500)
+        }
+      })
+      .catch(err => {
+        console.log(error)
+      });
   };
 
   return (
