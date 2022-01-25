@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import { View, Text, StyleSheet, Button } from 'react-native';
 import FormContainer from '../../shared/Form/FormContainer';
 import Input from '../../shared/Form/Input';
-import Error from '../../shared/error';
+import Error from '../../shared/Error';
 
 const Login = (props) => {
 

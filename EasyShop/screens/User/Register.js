@@ -3,10 +3,11 @@ import React, { useState } from 'react'
 import { View, Text, StyleSheet, Button } from 'react-native';
 import FormContainer from '../../shared/Form/FormContainer';
 import Input from '../../shared/Form/Input';
-import Error from '../../shared/error';
+import Error from '../../shared/Error';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import axios from 'axios';
 import baseURL from '../../assets/common/baseURL';
+import { Toast } from 'react-native-toast-message/lib/src/Toast';
 
 const Register = (props) => {
 
@@ -34,14 +35,25 @@ const Register = (props) => {
 
     axios.post(`${baseURL}users/register`, user)
       .then(res => {
-        if (res.status(200)) {
+        if (res.status === 200) {
+          Toast.show({
+            topOffset: 60,
+            type: 'success',
+            text1: 'Successfull Registration',
+            text2: 'Please Login in to your account',
+          })
           setTimeout(() => {
             props.navigation.navigate('Login');
           }, 500)
         }
       })
       .catch(err => {
-        console.log(error)
+        Toast.show({
+          topOffset: 60,
+          type: 'error',
+          text1: { err },
+          text2: 'Please try again',
+        })
       });
   };
 

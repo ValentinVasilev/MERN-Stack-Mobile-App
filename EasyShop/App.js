@@ -7,16 +7,16 @@
  * @flow strict-local
  */
 
-import React, {useState} from 'react';
-import type {Node} from 'react';
-import {StyleSheet, Text, useColorScheme, View, LogBox} from 'react-native';
-
-import {Colors} from 'react-native/Libraries/NewAppScreen';
-import {NativeBaseProvider} from 'native-base';
-import {NavigationContainer} from '@react-navigation/native';
+import React, { useState } from 'react';
+import type { Node } from 'react';
+import { StyleSheet, Text, useColorScheme, View, LogBox } from 'react-native';
+import Toast from "react-native-toast-message";
+import { Colors } from 'react-native/Libraries/NewAppScreen';
+import { NativeBaseProvider } from 'native-base';
+import { NavigationContainer } from '@react-navigation/native';
 
 // Redux
-import {Provider} from 'react-redux';
+import { Provider } from 'react-redux';
 import store from './Redux/store';
 
 // Navigators
@@ -44,6 +44,7 @@ const App: () => Node = () => {
           {/* <View style={styles.container}> */}
           <Header />
           <Main />
+          <Toast ref={(ref) => Toast.setRef(ref)} />
           {/* </View> */}
         </NativeBaseProvider>
       </NavigationContainer>
