@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Image,
   View,
@@ -9,15 +9,17 @@ import {
   Button,
   H1,
 } from 'react-native';
-import {Left, Right, Container} from 'native-base';
+import { Left, Right, Container } from 'native-base';
+import Toast from 'react-native-toast-message';
+import { connect } from 'react-redux';
+import * as actions from '../../Redux/actions/cartActions';
 
 const SingleProduct = props => {
-  //   const [item, setItem] = useState(props.route.params.item);
+
   let item = props.route.params.item;
-  //   const [item, setItem] = useState(props.item);
-  // console.log('Hello! item', item.image);
-  // console.log('item ->', item);
+
   const [availabilty, setAvailabilty] = useState('');
+
 
   return (
     <Container style={styles.container}>
@@ -31,7 +33,7 @@ const SingleProduct = props => {
                 : 'https://cdn.pixabay.com/photo/2012/04/01/17/29/box-23649_960_720.png',
             }}
             // style={styles.image}
-            style={{height: 100, width: 200}}
+            style={{ height: 100, width: 200 }}
           />
         </View>
         <View style={styles.contentContainer}>
@@ -43,7 +45,14 @@ const SingleProduct = props => {
         <Text style={styles.price}>$ {item.price}</Text>
       </View>
       <View style={styles.bottomLeft}>
-        <Button title="Add" />
+        <Button title="Add" onPress={() => {
+          props.addItemToCart(item), Toast.show({
+            topOffset: 60,
+            type: 'success',
+            text1: `${item.name} added to cart`,
+            text2: 'Go to your Cart to complete order',
+          });
+        }} />
       </View>
     </Container>
   );
@@ -106,4 +115,11 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SingleProduct;
+const mapToDispatchToProps = (dispatch) => {
+  return {
+    addItemToCart: (product) =>
+      dispatch(actions.addToCart({ quantity: 1, product }))
+  };
+};
+
+export default connect(null, mapToDispatchToProps)(SingleProduct);

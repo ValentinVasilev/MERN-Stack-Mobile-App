@@ -1,13 +1,14 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import {StyleSheet, Dimensions, Image, Text, Button, View} from 'react-native';
-import {connect} from 'react-redux';
+import { StyleSheet, Dimensions, Image, Text, Button, View } from 'react-native';
+import { connect } from 'react-redux';
 import * as actions from '../../Redux/actions/cartActions';
+import Toast from 'react-native-toast-message';
 
-var {width} = Dimensions.get('window');
+var { width } = Dimensions.get('window');
 
 const ProductCard = props => {
-  const {name, price, image, countInStock} = props;
+  const { name, price, image, countInStock } = props;
 
   return (
     <View style={styles.container}>
@@ -26,8 +27,15 @@ const ProductCard = props => {
       </Text>
       <Text style={styles.price}>${price}</Text>
       {countInStock > 0 ? (
-        <View style={{marginBottom: 60}}>
-          <Button title={'ADD'} color="green" onPress={() => props.addItemToCart(props)}/>
+        <View style={{ marginBottom: 60 }}>
+          <Button title={'ADD'} color="green" onPress={() => {
+            props.addItemToCart(props), Toast.show({
+              topOffset: 60,
+              type: 'success',
+              text1: `${name} added to cart`,
+              text2: 'Go to your Cart to complete order'
+            })
+          }} />
         </View>
       ) : (
         <Text style={styles.margin}>Currently Unavailable</Text>
@@ -36,12 +44,12 @@ const ProductCard = props => {
   );
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    addItemToCart: product =>
-      dispatch(actions.addToCart({quantity: 1, product})),
-  };
-};
+    addItemToCart: (product) =>
+      dispatch(actions.addToCart({ quantity: 1, product }))
+  }
+}
 export default connect(null, mapDispatchToProps)(ProductCard);
 
 const styles = StyleSheet.create({
