@@ -2,7 +2,7 @@
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react/self-closing-comp */
 /* eslint-disable prettier/prettier */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { View, Dimensions, StyleSheet } from 'react-native';
 import {
   Input,
@@ -17,6 +17,7 @@ import ProductList from './ProductList';
 import SearchedProduct from './SearchedProducts';
 import Banner from '../../shared/Banner';
 import CategoryFilter from './CategoryFilter';
+import { useFocusEffect } from '@react-navigation/native';
 
 import baseURL from '../../assets/common/baseURL';
 import axios from 'axios';
@@ -33,40 +34,44 @@ const ProductContainer = props => {
   const [active, setActive] = useState();
   const [initialState, setInitialState] = useState([]);
 
-  useEffect(() => {
-    setFocus(false);
-    setActive(-1);
+  useFocusEffect((
+    useCallback(() => {
+      setFocus(false);
+      setActive(-1);
 
-    // Products
-    axios.get(`${baseURL}products`)
-      .then(res => {
-        setProducts(res.data);
-        setProductsFiltered(res.data);
-        setProductsCtg(res.data);
-        setInitialState(res.data);
-      }).catch(err => {
-        console.log('API call Error', err);
-      });
+      // Products
+      axios.get(`${baseURL}products`)
+        .then(res => {
+          setProducts(res.data);
+          setProductsFiltered(res.data);
+          setProductsCtg(res.data);
+          setInitialState(res.data);
+        }).catch(err => {
+          console.log('API call Error', err);
+        });
 
-    // Categories
-    axios
-      .get(`${baseURL}categories`)
-      .then((res) => {
-        setCategories(res.data)
-      })
-      .catch((error) => {
-        console.log('Api call error')
-      })
+      // Categories
+      axios
+        .get(`${baseURL}categories`)
+        .then((res) => {
+          setCategories(res.data);
+        })
+        .catch((error) => {
+          console.log('Api call error');
+        });
 
-    return () => {
-      setProducts([]);
-      setProductsFiltered([]);
-      setFocus();
-      setCategories([]);
-      setActive();
-      setInitialState();
-    };
-  }, []);
+      return () => {
+        setProducts([]);
+        setProductsFiltered([]);
+        setFocus();
+        setCategories([]);
+        setActive();
+        setInitialState();
+      };
+
+
+    }, [])
+  ));
 
   const searchProduct = text => {
     setProductsFiltered(
