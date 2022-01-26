@@ -12,7 +12,8 @@ import {
     Image,
     TouchableOpacity,
     Dimensions,
-    Modal
+    Modal,
+    TouchableHighlight
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome'
 import EasyButton from '../../shared/StyledComponents/EasyButton';
@@ -35,7 +36,7 @@ const ListItem = (props) => {
             >
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>
-                        <TouchableOpacity
+                        <TouchableHighlight
                             underlayColor="#E8E8E8"
                             onPress={() => {
                                 setModalVisible(false)
@@ -48,12 +49,12 @@ const ListItem = (props) => {
                             }}
                         >
                             <Icon name="close" size={20} />
-                        </TouchableOpacity>
+                        </TouchableHighlight>
                         <EasyButton
                             medium
                             secondary
                             onPress={() => [
-                                props.navigation.navigate("ProductForm", { item: props }),
+                                props.navigation.navigate("Product Form", { item: props }),
                                 setModalVisible(false)
                             ]}
                         >
