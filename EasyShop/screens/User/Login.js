@@ -20,12 +20,11 @@ const Login = (props) => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
-
   useEffect(() => {
     if (context.stateUser.isAuthenticated === true) {
-      props.navigation.navigate('UserProfile');
+      props.navigation.navigate("UserProfile");
     }
-  }, [context.stateUser.isAutheticated]);
+  }, [context.stateUser.isAuthenticated]);
 
   const handleSubmit = () => {
     const user = {
@@ -33,17 +32,12 @@ const Login = (props) => {
       password,
     };
 
-    if (email === '' || password === '') {
-      setError('Please fill in your credentials.');
+    if (email === "" || password === "") {
+      setError("Please fill in your credentials");
     } else {
-      setError('');
       loginUser(user, context.dispatch);
-      props.navigation.navigate('UserProfile');
     }
-    // props.navigation.navigate('UserProfile');
-
   };
-
   return (
     <FormContainer title={'Login'}>
       <Input
