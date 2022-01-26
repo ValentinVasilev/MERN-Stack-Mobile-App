@@ -8,6 +8,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import axios from 'axios';
 import baseURL from '../../assets/common/baseURL';
 import { Toast } from 'react-native-toast-message/lib/src/Toast';
+import EasyButton from '../../shared/StyledComponents/EasyButton';
 
 const Register = (props) => {
 
@@ -67,39 +68,45 @@ const Register = (props) => {
     <>
 
       <FormContainer title={'Register'} />
-      <Input
-        placeholder={'Email'}
-        name="email"
-        id="email"
-        onChangeText={(text) => setEmail(text.toLowerCase())}
-      />
-      <Input
-        placeholder={'Name'}
-        name="name"
-        id="name"
-        onChangeText={(text) => setName(text)}
-      />
-      <Input
-        placeholder={'Phone Number'}
-        name="phone"
-        id="phone"
-        type="numeric"
-        onChangeText={(text) => setPhone(text)}
-      /><Input
-        placeholder={'Password'}
-        name="password"
-        id="password"
-        secureTextEntry={true}
-        onChangeText={(text) => setPassword(text)}
-      />
-      <View>
-        {error ? <Error message={error} /> : null}
-      </View>
       <View style={styles.btnView}>
-        <Button title={'Register'} onPress={() => register()} />
-      </View>
-      <View style={styles.btnView}>
-        <Button title={'Back to Login'} onPress={() => props.navigation.navigate('Login')} />
+        <Input
+          placeholder={'Email'}
+          name="email"
+          id="email"
+          onChangeText={(text) => setEmail(text.toLowerCase())}
+        />
+        <Input
+          placeholder={'Name'}
+          name="name"
+          id="name"
+          onChangeText={(text) => setName(text)}
+        />
+        <Input
+          placeholder={'Phone Number'}
+          name="phone"
+          id="phone"
+          type="numeric"
+          onChangeText={(text) => setPhone(text)}
+        /><Input
+          placeholder={'Password'}
+          name="password"
+          id="password"
+          secureTextEntry={true}
+          onChangeText={(text) => setPassword(text)}
+        />
+        <View>
+          {error ? <Error message={error} /> : null}
+        </View>
+        <View style={styles.btnView}>
+          <EasyButton large primary onPress={() => register()}>
+            <Text style={{ color: "white" }}>Register</Text>
+          </EasyButton>
+        </View>
+        <View style={styles.btnView}>
+          <EasyButton large secondary onPress={() => props.navigation.navigate('Login')}>
+            <Text style={{ color: "white" }}>Back to Login</Text>
+          </EasyButton>
+        </View>
       </View>
     </>
     // </KeyboardAwareScrollView>
@@ -108,7 +115,10 @@ const Register = (props) => {
 
 const styles = StyleSheet.create({
   btnView: {
-    padding: 15,
+    display: 'flex',
+    flexDirection: 'column',
+    // padding: 15,
+    alignItems: 'center'
   }
 })
 export default Register;

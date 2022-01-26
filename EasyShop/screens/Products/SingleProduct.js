@@ -13,6 +13,7 @@ import { Left, Right, Container } from 'native-base';
 import Toast from 'react-native-toast-message';
 import { connect } from 'react-redux';
 import * as actions from '../../Redux/actions/cartActions';
+import EasyButton from '../../shared/StyledComponents/EasyButton';
 
 const SingleProduct = props => {
 
@@ -45,14 +46,16 @@ const SingleProduct = props => {
         <Text style={styles.price}>$ {item.price}</Text>
       </View>
       <View style={styles.bottomLeft}>
-        <Button title="Add" onPress={() => {
+        <EasyButton medium primary onPress={() => {
           props.addItemToCart(item), Toast.show({
             topOffset: 60,
             type: 'success',
             text1: `${item.name} added to cart`,
             text2: 'Go to your Cart to complete order',
           });
-        }} />
+        }} >
+          <Text style={{ color: 'white' }}>Add</Text>
+        </EasyButton >
       </View>
     </Container>
   );

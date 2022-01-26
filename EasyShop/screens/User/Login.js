@@ -6,7 +6,7 @@ import { View, Text, StyleSheet, Button } from 'react-native';
 import FormContainer from '../../shared/Form/FormContainer';
 import Input from '../../shared/Form/Input';
 import Error from '../../shared/Error';
-
+import EasyButton from '../../shared/StyledComponents/EasyButton';
 
 // Context
 import AuthGlobal from '../../Context/store/AuthGlobal';
@@ -40,28 +40,36 @@ const Login = (props) => {
   };
   return (
     <FormContainer title={'Login'}>
-      <Input
-        placeholder={'Enter Email'}
-        name={'email'}
-        id={'email'}
-        value={email}
-        onChangeText={(text) => setEmail(text.toLowerCase())}
-      />
-      <Input
-        placeholder={'Enter Password'}
-        name={'password'}
-        id={'password'}
-        value={password}
-        onChangeText={(text) => setPassword(text)}
-        secureTextEntry={true}
-      />
-      <View style={styles.buttonGroup}>
-        {error ? <Error message={error} /> : null}
-        <Button title="Login" onPress={() => handleSubmit()} />
-      </View>
-      <View style={[{ marginTop: 40 }, styles.buttonGroup]}>
-        <Text style={styles.middleText}>Don't have an account yet ?</Text>
-        <Button title="Register" onPress={() => props.navigation.navigate('Register')} />
+      <View style={styles.view}>
+        <Input
+          placeholder={'Enter Email'}
+          name={'email'}
+          id={'email'}
+          value={email}
+          onChangeText={(text) => setEmail(text.toLowerCase())}
+        />
+        <Input
+          placeholder={'Enter Password'}
+          name={'password'}
+          id={'password'}
+          value={password}
+          onChangeText={(text) => setPassword(text)}
+          secureTextEntry={true}
+        />
+
+        <View style={styles.buttonGroup}>
+          {error ? <Error message={error} /> : null}
+          <EasyButton primary large onPress={() => handleSubmit()}>
+            <Text style={{ color: "white" }}>Login</Text>
+          </EasyButton>
+        </View>
+        <View style={[{ marginTop: 40 }, styles.buttonGroup]}>
+          <Text style={styles.middleText}>Don't have an account yet ?</Text>
+          <EasyButton secondary large onPress={() => props.navigation.navigate('Register')} >
+            <Text style={{ color: "white" }}>Register</Text>
+
+          </EasyButton>
+        </View>
       </View>
     </FormContainer>
   );
@@ -77,5 +85,10 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     alignSelf: 'center',
   },
+  view: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center'
+  }
 });
 export default Login;
