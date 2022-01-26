@@ -14,13 +14,33 @@ import Toast from 'react-native-toast-message';
 import { connect } from 'react-redux';
 import * as actions from '../../Redux/actions/cartActions';
 import EasyButton from '../../shared/StyledComponents/EasyButton';
+import TrafficLight from '../../shared/StyledComponents/TrafficLight';
 
 const SingleProduct = props => {
 
   let item = props.route.params.item;
 
-  const [availabilty, setAvailabilty] = useState('');
+  const [availabilty, setAvailabilty] = useState(null);
+  const [availabiltyText, setAvailabiltyText] = useState('');
 
+  useEffect(() => {
+    if (props.route.params.item.countInStock === 0) {
+      setAvailabilty(<TrafficLight unavailable></TrafficLight>);
+      setAvailabiltyText("Unavailable");
+    } else if (props.route.params.item.countInStock <= 5) {
+      setAvailabilty(<TrafficLight limited></TrafficLight>);
+      setAvailabiltyText("Limited Stock");
+    } else {
+      setAvailabilty(<TrafficLight available></TrafficLight>);
+      setAvailabiltyText("Available");
+    }
+
+    // To clean state on anitial one
+    return () => {
+      setAvailabilty(null);
+      setAvailabiltyText('');
+    }
+  }, [])
 
   return (
     <Container style={styles.container}>
@@ -40,6 +60,15 @@ const SingleProduct = props => {
         <View style={styles.contentContainer}>
           <Text style={styles.contentText}>{item.name}</Text>
           <Text style={styles.contentHeader}>{item.brand}</Text>
+        </View>
+        <View style={styles.availabiltyContainer}>
+          <View style={styles.availabilty}>
+            <Text style={{ marginRight: 10 }}>
+              Availabilty: {availabiltyText}
+            </Text>
+            {availabilty}
+          </View>
+          <Text>{item.description}</Text>
         </View>
       </ScrollView>
       <View style={styles.bottomContainer}>
@@ -88,13 +117,16 @@ const styles = StyleSheet.create({
     height: '250',
   },
   contentHeader: {
+    color: 'black',
     fontWeight: 'bold',
     marginBottom: 20,
+    fontSize: 18,
   },
   contentText: {
-    fontSize: 18,
+    fontSize: 22,
     fontWeight: 'bold',
     marginBottom: 20,
+    color: 'black'
   },
   bottomContainer: {
     flexDirection: 'row',
@@ -116,6 +148,14 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     margin: 20,
   },
+  availabiltyContainer: {
+    marginBottom: 20,
+    alignItems: 'center',
+  },
+  availabilty: {
+    flexDirection: 'row',
+    marginBottom: 10,
+  }
 });
 
 const mapToDispatchToProps = (dispatch) => {
