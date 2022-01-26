@@ -21,11 +21,11 @@ const Login = (props) => {
   const [error, setError] = useState('');
 
 
-  // useEffect(() => {
-  //   if (context.stateUser.isAuthenticated === true) {
-  // props.navigation.navigate('UserProfile');
-  //   }
-  // }, [context.stateUser.isAutheticated]);
+  useEffect(() => {
+    if (context.stateUser.isAuthenticated === true) {
+      props.navigation.navigate('UserProfile');
+    }
+  }, [context.stateUser.isAutheticated]);
 
   const handleSubmit = () => {
     const user = {
@@ -40,6 +40,8 @@ const Login = (props) => {
       loginUser(user, context.dispatch);
       props.navigation.navigate('UserProfile');
     }
+    // props.navigation.navigate('UserProfile');
+
   };
 
   return (
