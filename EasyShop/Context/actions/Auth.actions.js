@@ -20,11 +20,11 @@ export const loginUser = (user, dispatch) => {
         .then(data => {
             if (data) {
                 const token = data.token;
-                AsyncStorage.setItem("jwt", token)
-                const decoded = jwt_decode(token)
-                dispatch(setCurrentUser(decoded, user))
+                AsyncStorage.setItem("jwt", token);
+                const decoded = jwt_decode(token);
+                dispatch(setCurrentUser(decoded, user));
             } else {
-                logoutUser(dispatch)
+                logoutUser(dispatch);
             }
         })
         .catch(err => {
@@ -34,7 +34,7 @@ export const loginUser = (user, dispatch) => {
                 text1: 'Please provide correct credentials',
                 text2: '',
             });
-            logoutUser(dispatch)
+            logoutUser(dispatch);
         });
 };
 

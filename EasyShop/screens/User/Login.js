@@ -1,16 +1,31 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
-import React, { useState } from 'react'
+import React, { useState, useContext, useEffect } from 'react';
 import { View, Text, StyleSheet, Button } from 'react-native';
 import FormContainer from '../../shared/Form/FormContainer';
 import Input from '../../shared/Form/Input';
 import Error from '../../shared/Error';
 
+
+// Context
+import AuthGlobal from '../../Context/store/AuthGlobal';
+import { loginUser } from '../../Context/actions/Auth.actions';
+
+
 const Login = (props) => {
 
+  const context = useContext(AuthGlobal);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+
+
+  // useEffect(() => {
+  //   if (context.stateUser.isAuthenticated === true) {
+  // props.navigation.navigate('UserProfile');
+  //   }
+  // }, [context.stateUser.isAutheticated]);
 
   const handleSubmit = () => {
     const user = {
@@ -22,7 +37,8 @@ const Login = (props) => {
       setError('Please fill in your credentials.');
     } else {
       setError('');
-      console.log('success');
+      loginUser(user, context.dispatch);
+      props.navigation.navigate('UserProfile');
     }
   };
 
