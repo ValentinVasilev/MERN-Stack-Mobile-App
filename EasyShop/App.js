@@ -26,6 +26,9 @@ import Main from './Navigators/Main';
 import ProductContainer from './screens/Products/ProductContainer';
 import Header from './shared/Header';
 
+// Context API
+import Auth from '../EasyShop/Context/store/Auth';
+
 LogBox.ignoreAllLogs(true);
 
 const App: () => Node = () => {
@@ -38,17 +41,19 @@ const App: () => Node = () => {
     }
   }
   return (
-    <Provider store={store}>
-      <NavigationContainer>
-        <NativeBaseProvider>
-          {/* <View style={styles.container}> */}
-          <Header />
-          <Main />
-          <Toast ref={(ref) => Toast.setRef(ref)} />
-          {/* </View> */}
-        </NativeBaseProvider>
-      </NavigationContainer>
-    </Provider>
+    <Auth>
+      <Provider store={store}>
+        <NavigationContainer>
+          <NativeBaseProvider>
+            {/* <View style={styles.container}> */}
+            <Header />
+            <Main />
+            <Toast ref={(ref) => Toast.setRef(ref)} />
+            {/* </View> */}
+          </NativeBaseProvider>
+        </NavigationContainer>
+      </Provider>
+    </Auth>
   );
 };
 

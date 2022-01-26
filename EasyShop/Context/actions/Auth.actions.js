@@ -53,12 +53,12 @@ export const getUserProfile = (id) => {
 export const logoutUser = (dispatch) => {
     AsyncStorage.removeItem('jwt');
     dispatch() // TODO 
-}
+};
 
 export const setCurrentUser = (decoded, user) => {
     return {
         type: 'SET_CURRENT_USER',
         payload: decoded,
         userProfile: user,
-    }
-}
+    };
+};
