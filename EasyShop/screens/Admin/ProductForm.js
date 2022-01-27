@@ -141,6 +141,7 @@ const ProductForm = (props) => {
           </EasyButton>
         </View>
       </View>
+
     </FormContainer>
   );
 };
