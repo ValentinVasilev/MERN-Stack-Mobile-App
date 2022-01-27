@@ -87,7 +87,7 @@ const Products = (props) => {
 
   const deleteProduct = (id) => {
     axios
-      .delete(`${baseURL}products / ${id}`, {
+      .delete(`${baseURL}products/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
