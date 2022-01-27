@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   Platform
 } from "react-native"
-import { Item, Picker } from "native-base"
+import { Item, Select } from "native-base"
 import FormContainer from '../../shared/Form/FormContainer';
 import Input from '../../shared/Form/Input';
 import EasyButton from '../../shared/StyledComponents/EasyButton';
@@ -39,66 +39,108 @@ const ProductForm = (props) => {
   const [numReviews, setNumReviews] = useState(0);
   const [item, setItem] = useState(null);
 
+  useEffect(() => {
+    // Get Categories
+
+    axios.get(`${baseURL}categories`)
+      .then(res => setCategories(res.data))
+      .catch(error => alert("Error to load categories"))
+
+    // Whenever the component is destroted to clear the data
+    return () => {
+      setCategories([])
+    }
+  }, []);
+
+
   return (
     <FormContainer title="Add Product">
-      <View>
-        <Image source={{ uri: mainImage }} />
-        <TouchableOpacity>
-          <Text>IMAGE</Text>
-        </TouchableOpacity>
+      <View style={{ alignItems: 'center' }}>
+        <View>
+          <Image source={{ uri: mainImage }} />
+          <TouchableOpacity>
+            <Text>IMAGE</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.label}>
+          <Text >Brand</Text>
+        </View>
+        <Input
+          placeholder="Brand"
+          name="brand"
+          id="brand"
+          value={brand}
+          onChangeText={(text) => setBrand(text)}
+        />
+        <View style={styles.label}>
+          <Text style={{ textDecorationLine: "underline" }}>Name</Text>
+        </View>
+        <Input
+          placeholder="Name"
+          name="name"
+          id="name"
+          value={name}
+          onChangeText={(text) => setName(text)}
+        />
+        <View style={styles.label}>
+          <Text style={{ textDecorationLine: "underline" }}>Price</Text>
+        </View>
+        <Input
+          placeholder="Price"
+          name="price"
+          id="price"
+          value={price}
+          keyboardType={"numeric"}
+          onChangeText={(text) => setPrice(text)}
+        />
+        <View style={styles.label}>
+          <Text style={{ textDecorationLine: "underline" }}>Count in Stock</Text>
+        </View>
+        <Input
+          placeholder="Stock"
+          name="stock"
+          id="stock"
+          value={countInStock}
+          keyboardType={"numeric"}
+          onChangeText={(text) => setCountInStock(text)}
+        />
+        <View style={styles.label}>
+          <Text style={{ textDecorationLine: "underline" }}>Description</Text>
+        </View>
+        <Input
+          placeholder="Description"
+          name="description"
+          id="description"
+          value={description}
+          onChangeText={(text) => setDescription(text)}
+        />
+        <View style={styles.label}>
+          <Select
+            mode="dropdown"
+            iosIcon={<Icon color={"#007aff"} name="arrow-down" />}
+            style={{ width: undefined }}
+            placeholder="Select your Category"
+            selectedValue={pickerValue}
+            placeholderStyle={{ color: "#007aff" }}
+            placeholderIconColor="#007aff"
+            onValueChange={(e) => [setPickerValue(e), setCategory(e)]}
+          >
+            {categories.map((c) => {
+              return <Select.Item key={c.id} label={c.name} value={c.id} />
+            })}
+          </Select>
+        </View>
+        {err ? <Error message={err} /> : null}
+        <View style={styles.buttonContainer}>
+          <EasyButton
+            large
+            primary
+          // onPress={() => addProduct()}
+          >
+            <Text style={styles.buttonText}>Confirm</Text>
+          </EasyButton>
+        </View>
       </View>
-      <View>
-        <Text style={styles.label}>Brand</Text>
-      </View>
-      <Input
-        placeholder="Brand"
-        name="brand"
-        id="brand"
-        value={brand}
-        onChangeText={(text) => setBrand(text)}
-      />
-      <View style={styles.label}>
-        <Text style={{ textDecorationLine: "underline" }}>Name</Text>
-      </View>
-      <Input
-        placeholder="Name"
-        name="name"
-        id="name"
-        value={name}
-        onChangeText={(text) => setName(text)}
-      />
-      <View style={styles.label}>
-        <Text style={{ textDecorationLine: "underline" }}>Price</Text>
-      </View>
-      <Input
-        placeholder="Price"
-        name="price"
-        id="price"
-        value={price}
-        keyboardType={"numeric"}
-        onChangeText={(text) => setPrice(text)}
-      />
-      <View style={styles.label}>
-        <Text style={{ textDecorationLine: "underline" }}>Count in Stock</Text>
-      </View>
-      <Input
-        placeholder="Stock"
-        name="stock"
-        id="stock"
-        value={countInStock}
-        keyboardType={"numeric"}
-        onChangeText={(text) => setCountInStock(text)}
-      />
-      <View style={styles.label}>
-        <Text style={{ textDecorationLine: "underline" }}>Description</Text>
-      </View>
-      <Input
-        placeholder="Description"
-        name="description"
-        id="description"
-        value={description}
-        onChangeText={(text) => setDescription(text)}
-      />
     </FormContainer>
   );
 };
