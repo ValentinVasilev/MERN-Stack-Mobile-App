@@ -6,7 +6,8 @@ import {
   Image,
   StyleSheet,
   TouchableOpacity,
-  Platform
+  Platform,
+  Button
 } from "react-native"
 import { Item, Select } from "native-base"
 import FormContainer from '../../shared/Form/FormContainer';
@@ -18,6 +19,11 @@ import Toast from "react-native-toast-message"
 import AsyncStorage from "@react-native-community/async-storage"
 import baseURL from '../../assets/common/baseURL';
 import axios from "axios"
+// import * as ImagePicker from 'react-native-image-picker';
+import { launchCamera, launchImageLibrary, } from 'react-native-image-picker';
+import { FileMimeTypeEnum } from '../../assets/common/FileMimeTypeEnum';
+
+const mimeType = FileMimeTypeEnum;
 
 const ProductForm = (props) => {
 
@@ -39,6 +45,9 @@ const ProductForm = (props) => {
   const [numReviews, setNumReviews] = useState(0);
   const [item, setItem] = useState(null);
 
+
+
+
   useEffect(() => {
     // Get Categories
 
@@ -46,20 +55,55 @@ const ProductForm = (props) => {
       .then(res => setCategories(res.data))
       .catch(error => alert("Error to load categories"))
 
+    // Image Picker
+    // (async () => {
+    //   if (Platform.OS !== 'web') {
+    //     const {
+    //       status,
+    //     } = await ImagePicker.launchCamera();
+    //   }
+    // })();
+
+
     // Whenever the component is destroted to clear the data
     return () => {
       setCategories([])
     }
   }, []);
 
+  function createBase64Url(
+    imageData,
+    mimeType) {
+    if (!imageData) return '';
 
+    return `data:${mimeType};base64,${imageData}`;
+  }
+
+  const OpenCamera = () => {
+
+    launchCamera({ mediaType: 'photo', includeBase64: true, maxWidth: 300, maxHeight: 300 }, (response) => {
+      console.log('Response = ', response);
+      if (response.didCancel) {
+        console.log('User canceled image picker!')
+      } else if (response.errorMessage) {
+        console.log('Error -> ', response.errorMessage)
+      } else {
+        setImage(createBase64Url(response.assets[0].base64));
+      }
+    })
+  };
+
+  const openImg = () => {
+    launchImageLibrary();
+  }
   return (
     <FormContainer title="Add Product">
       <View style={{ alignItems: 'center' }}>
-        <View>
-          <Image source={{ uri: mainImage }} />
-          <TouchableOpacity>
-            <Text>IMAGE</Text>
+        <View style={styles.imageContainer}>
+          <Image style={styles.image} source={{ uri: image.uri }} />
+          <TouchableOpacity onPress={() => OpenCamera()} style={styles.imagePicker}>
+            <Icon style={{ color: "white" }} name="camera" />
+            {/* <Button onPress={openImg} title="Image" /> */}
           </TouchableOpacity>
         </View>
         <View style={styles.label}>
@@ -146,6 +190,8 @@ const ProductForm = (props) => {
   );
 };
 
+
+
 const styles = StyleSheet.create({
   label: {
     width: "80%",
@@ -186,4 +232,5 @@ const styles = StyleSheet.create({
     elevation: 20
   }
 })
+
 export default ProductForm;
