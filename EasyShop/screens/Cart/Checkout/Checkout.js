@@ -2,9 +2,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 /* eslint-disable prettier/prettier */
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Button } from 'react-native';
-import {Select } from 'native-base';
+import { Select } from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome'
 import FormContainer from '../../../shared/Form/FormContainer';
 import Input from '../../../shared/Form/Input';
@@ -28,7 +28,7 @@ const Checkout = (props) => {
         setOrderItems(props.cartItems);
 
         return () => {
-                setOrderItems();
+            setOrderItems();
         };
     }, []);
     // console.log('orderItems -->', props)
@@ -55,7 +55,7 @@ const Checkout = (props) => {
             enableOnAndroid={true}
         >
             <FormContainer
-            title={'Shipping Address'}
+                title={'Shipping Address'}
             >
                 <Input
                     placeholder={'Phone'}
@@ -64,25 +64,25 @@ const Checkout = (props) => {
                     keyboardType={'numeric'}
                     onChangeText={(text) => setPhone(text)}
                 />
-                   <Input
+                <Input
                     placeholder={'Shipping Address'}
                     name={'shipping address'}
                     value={address}
                     onChangeText={(text) => setAddress(text)}
                 />
-                    <Input
+                <Input
                     placeholder={'Shipping Address 2'}
                     name={'shipping address 2'}
                     value={address2}
                     onChangeText={(text) => setAddress2(text)}
                 />
-                      <Input
+                <Input
                     placeholder={'City'}
                     name={'city'}
                     value={city}
                     onChangeText={(text) => setCity(text)}
                 />
-                        <Input
+                <Input
                     placeholder={'ZipCode'}
                     name={'Zip code'}
                     value={zipcode}
@@ -105,15 +105,15 @@ const Checkout = (props) => {
                             return (
                                 <Select.Item key={c.code} label={c.name} value={c.name} />
                             );
-                   })}
-                </Select>
+                        })}
+                    </Select>
                 </View>
-                <View style={{width: '80%', alignItems: 'center'}}>
-                   <Button title="Confirm" onPress={() => CheckOut()}/>
+                <View style={{ width: '80%', alignItems: 'center' }}>
+                    <Button title="Confirm" onPress={() => CheckOut()} />
                 </View>
             </FormContainer>
-    </KeyboardAwareScrollView>
-);
+        </KeyboardAwareScrollView>
+    );
 };
 const mapStateToProps = (state) => {
     const { cartItems } = state;
