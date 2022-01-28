@@ -1,4 +1,10 @@
 {
   "name": "EasyShop",
-  "displayName": "EasyShop"
+  "displayName": "EasyShop",
+  "splash": {
+    "image": "./assets/Logo.png",
+    "resizeMode": "contain",
+    "backgroundColor": "#ffffff"
+  },
+  "icon": "./assets/icon.png"
 }
