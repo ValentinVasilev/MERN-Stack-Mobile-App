@@ -49,7 +49,22 @@ const ProductForm = (props) => {
 
 
   useEffect(() => {
-
+    if (!props.route.params) {
+      setItem(null);
+    } else {
+      // Populate data on edit page
+      setItem(props.route.params.item);
+      setBrand(props.route.params.item.brand);
+      setName(props.route.params.item.name);
+      setPrice(props.route.params.item.price.toString());
+      setDescription(props.route.params.item.description);
+      setMainImage(props.route.params.item.image);
+      setImage(props.route.params.item.image);
+      setCategory(props.route.params.item.category._id);
+      setCountInStock(props.route.params.item.countInStock.toString());
+    }
+    console.log('Category->', category)
+    // console.log(props.route.params.item.category._id);
     AsyncStorage.getItem('jwt')
       .then((res) => {
         setToken(res);
@@ -80,14 +95,14 @@ const ProductForm = (props) => {
 
   const OpenCamera = () => {
 
-    launchCamera({ mediaType: 'photo', includeBase64: false, maxWidth: 300, maxHeight: 300 }, (response) => {
+    launchCamera({ mediaType: 'photo', includeBase64: true, maxWidth: 300, maxHeight: 300 }, (response) => {
       console.log('Response = ', response);
       if (response.didCancel) {
         console.log('User canceled image picker!');
       } else if (response.errorMessage) {
         console.log('Error -> ', response.errorMessage);
       } else {
-        setImage(response.assets[0]);
+        setImage(createBase64Url(response.assets[0]));
       }
     });
   };
@@ -135,7 +150,7 @@ const ProductForm = (props) => {
     formData.append('numReviews', numReviews);
     formData.append('isFeatured', isFeatured);
 
-    console.log(formData._parts)
+    console.log('Form Data->', formData)
     const config = {
       headers: {
         // 'Content-Type': 'multipart/form-data',
@@ -147,12 +162,12 @@ const ProductForm = (props) => {
       axios
         .put(`${baseURL}products/${item.id}`, formData, config)
         .then((res) => {
-          if (res.status == 200 || res.status == 201) {
+          if (res.status === 200 || res.status === 201) {
             Toast.show({
               topOffset: 60,
               type: 'success',
               text1: 'Product successfuly updated',
-              text2: ''
+              text2: '',
             });
             setTimeout(() => {
               props.navigation.navigate('Products');
@@ -268,7 +283,7 @@ const ProductForm = (props) => {
             onValueChange={(e) => [setPickerValue(e), setCategory(e)]}
           >
             {categories.map((c) => {
-              return <Select.Item key={c.id} label={c.name} value={c.id} />;
+              return <Select.Item key={c.id} label={c.name} value={c._id} />;
             })}
           </Select>
         </View>
