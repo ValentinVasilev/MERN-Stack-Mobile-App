@@ -5,6 +5,7 @@ import { View, Text, ScrollView, StyleSheet, Button } from 'react-native';
 import { Container } from 'native-base';
 import { useFocusEffect } from '@react-navigation/native';
 import AsyncStorage from '@react-native-community/async-storage';
+import OrderCard from '../../shared/OrderCard';
 
 import axios from 'axios';
 import baseURL from '../../assets/common/baseURL';
@@ -16,32 +17,47 @@ const UserProfile = (props) => {
 
   const context = useContext(AuthGlobal);
   const [userProfile, setUserProfile] = useState();
+  const [orders, setOrders] = useState();
 
-  useEffect(() => {
-    // Check if  user is logged in
-    if (
-      context.stateUser.isAuthenticated === false ||
-      context.stateUser.isAuthenticated === null
-    ) {
-      props.navigation.navigate('Login');
-    }
+  useFocusEffect(
+    useCallback(() => {
+      if (
+        context.stateUser.isAuthenticated === false ||
+        context.stateUser.isAuthenticated === null
+      ) {
+        props.navigation.navigate('Login');
+      }
 
-    // console.log('State fo the user', context.stateUser.user);
+      AsyncStorage.getItem('jwt')
+        .then((res) => {
+          axios
+            .get(`${baseURL}users/${context.stateUser.user.userId}`, {
+              headers: { Authorization: `Bearer ${res}` },
+            })
+            .then((user) => setUserProfile(user.data));
+        })
+        .catch((error) => console.log(error));
 
-    AsyncStorage.getItem('jwt')
-      .then((res) => {
-        axios
-          .get(`${baseURL}users/${context.stateUser.user.userId}`, {
-            headers: { Authorization: `Bearer ${res}` },
-          })
-          .then((user) => setUserProfile(user.data))
-      })
-      .catch((error) => console.log(error))
+      axios
+        .get(`${baseURL}orders`)
+        .then((x) => {
+          const data = x.data;
+          console.log(data);
+          const userOrders = data.filter(
+            (order) => order.user._id === context.stateUser.user.userId
+          );
+          setOrders(userOrders);
+        })
+        .catch((error) => console.log(error));
 
-    return () => {
-      setUserProfile();
-    }
-  }, [context.stateUser.isAuthenticated])
+      return () => {
+        setUserProfile();
+        setOrders();
+      };
+
+    }, [context.stateUser.isAuthenticated]));
+
+  // console.log(context.stateUser.user)
   return (
     <Container style={styles.container}>
       <ScrollView contentContainerStyle={styles.subContainer}>
@@ -57,21 +73,41 @@ const UserProfile = (props) => {
           </Text>
         </View>
         <View style={{ marginTop: 80 }}>
-          <Button title="Sign out" onPress={() => [AsyncStorage.removeItem('jwt'), logoutUser(context.dispatch)]} />
+          <Button title={'Sign Out'} onPress={() => [
+            AsyncStorage.removeItem('jwt'),
+            logoutUser(context.dispatch)
+          ]} />
+        </View>
+        <View style={styles.order}>
+          <Text style={{ fontSize: 22, alignSelf: 'center', paddingTop: 15, fontWeight: 'bold' }}>My Orders</Text>
+          <View>
+            {orders ? (
+              orders.map((x) => {
+                return <OrderCard key={x.id} {...x} />;
+              })
+            ) : (
+              <View style={styles.order}>
+                <Text>You have no orders</Text>
+              </View>
+            )}
+          </View>
         </View>
       </ScrollView>
     </Container>
   );
 };
-
 const styles = StyleSheet.create({
   container: {
-    // //   flex: '1',
+    // backgroundColor: 'pink',
+    // flex: '1',
     alignItems: 'center',
+    // width: '150%'
+    marginLeft: 43,
+    paddingBottom: 10,
   },
   subContainer: {
-    alignItems: "center",
-    marginTop: 60
+    alignItems: 'center',
+    marginTop: 60,
   },
 });
 export default UserProfile;

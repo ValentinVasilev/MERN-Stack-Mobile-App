@@ -2,8 +2,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 /* eslint-disable prettier/prettier */
-import React, { useEffect, useState } from 'react';
-import { View, Button } from 'react-native';
+import React, { useEffect, useState, useContext } from 'react';
+import { View, Button, Toast } from 'react-native';
 import { Select } from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome'
 import FormContainer from '../../../shared/Form/FormContainer';
@@ -11,6 +11,7 @@ import Input from '../../../shared/Form/Input';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { connect } from 'react-redux';
 import { convertAbsoluteToRem } from 'native-base/lib/typescript/theme/tools';
+import AuthGlobal from '../../../Context/store/AuthGlobal';
 
 const countries = require('../../../assets/data/countries.json');
 
@@ -23,30 +24,49 @@ const Checkout = (props) => {
     const [zipcode, setZipcode] = useState('');
     const [country, setContry] = useState('');
     const [phone, setPhone] = useState('');
+    const [user, setUser] = useState();
+
+
+    // console.log('orderItems -->', props)
+    // console.log('Cat Items ==>', props.cartItems);
+    // console.log('orderItems ---->', orderItems);
+    const context = useContext(AuthGlobal);
 
     useEffect(() => {
         setOrderItems(props.cartItems);
 
+        if (context.stateUser.isAuthenticated) {
+            setUser(context.stateUser.user.userId);
+        } else {
+            props.navigation.navigate('Cart');
+            Toast.show({
+                topOffset: 60,
+                type: 'error',
+                text1: 'Please Login to Checkout',
+            })
+        }
         return () => {
             setOrderItems();
         };
     }, []);
-    // console.log('orderItems -->', props)
-    // console.log('Cat Items ==>', props.cartItems);
-    // console.log('orderItems ---->', orderItems);
+
     const CheckOut = () => {
+
         let order = {
             city,
             country,
             dateOrder: Date.now(),
             orderItems: orderItems,
             phone,
+            user,
+            status: '3',
             shippingAddress1: address,
             shippingAddress2: address2,
             zipcode,
         };
         props.navigation.navigate('Payment', { order: order });
     };
+
 
     return (
         <KeyboardAwareScrollView
