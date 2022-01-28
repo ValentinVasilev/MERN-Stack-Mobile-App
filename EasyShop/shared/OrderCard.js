@@ -118,7 +118,7 @@ const OrderCard = (props) => {
                 <View style={styles.priceContainer}>
                     <Text>Price: </Text>
                     <Text style={styles.price}>$ {props.totalPrice}</Text>
-                </View>
+                </View> 
                 {props.editMode ? (
                     <View>
                         <Select

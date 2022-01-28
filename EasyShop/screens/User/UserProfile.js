@@ -108,6 +108,7 @@ const styles = StyleSheet.create({
   subContainer: {
     alignItems: 'center',
     marginTop: 60,
+    height: '120%'
   },
 });
 export default UserProfile;
