@@ -1,30 +1,33 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
-import React from 'react';
+import React, { useContext } from 'react';
 import {
   Text,
   View,
-  Button,
   StyleSheet,
   Dimensions,
-  Image,
   TouchableOpacity,
 } from 'react-native';
 import * as actions from '../../Redux/actions/cartActions';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import CartItem from './CartItem';
-import Icon from 'react-native-vector-icons/FontAwesome'
+import Icon from 'react-native-vector-icons/FontAwesome';
 import EasyButton from '../../shared/StyledComponents/EasyButton';
+import AuthGlobal from '../../Context/store/AuthGlobal';
+var { height } = Dimensions.get('window');
 
-var { height, width } = Dimensions.get('window');
 import { connect } from 'react-redux';
 import { Container } from 'native-base';
 
-var { height, width } = Dimensions.get("window");
+
 const Cart = props => {
+
+  const context = useContext(AuthGlobal);
+
   let total = 0;
   props.cartItems.forEach(cart => {
-    return (total += cart.product.price)
+    return (total += cart.product.price);
   });
 
   return (
@@ -75,10 +78,23 @@ const Cart = props => {
 
         </View>
         <View style={{ paddingLeft: 15, paddingRight: 15 }}>
-          <EasyButton medium primary onPress={() => props.navigation.navigate('Checkout')}>
-            <Text style={{ color: 'white' }}>Checkout</Text>
-
-          </EasyButton>
+          {context.stateUser.isAuthenticated ? (
+            <EasyButton
+              primary
+              medium
+              onPress={() => props.navigation.navigate('Checkout')}
+            >
+              <Text style={{ color: 'white' }}>Checkout</Text>
+            </EasyButton>
+          ) : (
+            <EasyButton
+              secondary
+              medium
+              onPress={() => props.navigation.navigate('Login')}
+            >
+              <Text style={{ color: 'white' }}>Login</Text>
+            </EasyButton>
+          )}
         </View>
       </Container>)
         : (
@@ -100,9 +116,9 @@ const mapStateToProps = state => {
 const mapDispatchToProps = (dispatch) => {
   return {
     clearCart: () => dispatch(actions.clearCart()),
-    removeFromCart: (item) => dispatch(actions.removeFromCart(item))
-  }
-}
+    removeFromCart: (item) => dispatch(actions.removeFromCart(item)),
+  };
+};
 const styles = StyleSheet.create({
   emptyContainer: {
     height: height,
@@ -136,7 +152,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     position: 'relative',
     maxWidth: '100%',
-    backgroundColor: 'white'
-  }
+    backgroundColor: 'white',
+  },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Cart);
